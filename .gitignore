@@ -18,4 +18,4 @@ node_modules
 build
 .tmp
 .sass-cache
-app/bower_components
+bower_components

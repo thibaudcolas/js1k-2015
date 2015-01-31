@@ -1,0 +1,13 @@
+M=function(){
+  requestAnimationFrame(M);
+  x=Math.random()*a.width;
+  y=Math.random()*a.height;
+  s=Math.random()*60+40;
+  t=Math.random()*10+10;
+  g=c.createRadialGradient(x,y,s,x,y,s+t);
+  g.addColorStop(.1,'rgba('+~~(Math.random()*255)+','+~~(Math.random()*255)+','+~~(Math.random()*255)+',1)');
+  g.addColorStop(1,'rgba(255,255,255,0)');
+  c.fillStyle=g;
+  c.fillRect(x-s*2,y-s*2,s*4,s*4);
+};
+M();
