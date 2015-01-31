@@ -1,0 +1,25 @@
+{
+  "name": "js1k-2015",
+  "version": "0.1.0",
+  "homepage": "https://github.com/ThibWeb/js1k-2015",
+  "description": "My entry for JS1K, 2015 Hype Train edition",
+  "private": true,
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ThibWeb/js1k-2015"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.0.0-rc3",
+    "gulp": "^3.8.10",
+    "gulp-bytediff": "^0.2.0",
+    "gulp-closure-compiler": "^0.2.16",
+    "gulp-jscrush": "^1.0.0",
+    "gulp-micro": "^1.0.1"
+  },
+  "scripts": {
+    "start": "browser-sync start --server --files 'src/*.html' --no-online --no-notify"
+  }
+}
