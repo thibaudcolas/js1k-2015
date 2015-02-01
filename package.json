@@ -2,7 +2,7 @@
   "name": "js1k-2015",
   "version": "0.1.0",
   "homepage": "https://github.com/ThibWeb/js1k-2015",
-  "description": "My entry for JS1K, 2015 Hype Train edition",
+  "description": "My attempts and tools for JS1K 2015, Hype Train edition.",
   "private": true,
   "engines": {
     "node": ">=0.10.0"

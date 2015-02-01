@@ -1,7 +1,7 @@
 js1k-2015
 =========
 
-My attempts and tools for JS1K 2015.
+My attempts and tools for JS1K 2015, Hype Train edition.
 
 ## Theme
 
@@ -23,6 +23,4 @@ npm run test
 
 - Line Rider clone
 - Cookie generator
-- Raytracer
-- Particle shuffle
-- Raining day
+- Transport Tycoon!
