@@ -17,6 +17,7 @@
     "gulp-bytediff": "^0.2.0",
     "gulp-closure-compiler": "^0.2.16",
     "gulp-html-extract": "0.0.1",
+    "gulp-html-replace": "^1.4.3",
     "gulp-jscrush": "^1.0.0",
     "gulp-micro": "^1.0.1",
     "gulp-rename": "^1.2.0",

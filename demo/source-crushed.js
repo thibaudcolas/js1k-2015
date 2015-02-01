@@ -1,0 +1,1 @@
+_='var ,j,k;=0=0,="hello world",setInterval(function(){for(k=+new Date/1e3,c.clearRect(0,0,),j=;j--;)c.fillText(,+5*Math.sin(k+j),*j)},50);this_can_be_really_long,a.heighta.width10';for(Y in $='')with(_.split($[Y]))_=join(pop());eval(_)
