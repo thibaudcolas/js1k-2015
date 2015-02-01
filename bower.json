@@ -1,0 +1,7 @@
+{
+  "name": "js1k-2015",
+  "version": "0.1.0",
+  "dependencies": {
+    "closure-compiler": "http://dl.google.com/closure-compiler/compiler-latest.zip"
+  }
+}

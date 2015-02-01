@@ -12,6 +12,7 @@ My attempts and tools for JS1K 2015.
 
 ~~~bash
 npm install
+bower install
 
 npm run start
 npm run build
