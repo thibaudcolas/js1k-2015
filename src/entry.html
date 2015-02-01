@@ -115,9 +115,20 @@
     </script>
     <script type="demo">
       // THIS IS WHERE YOUR DEMO GOES
-      /* Declare your variables here */
+      var this_can_be_really_long;
+      var j, k;
 
-      _='var ,j,k;=0=0,="hello world",setInterval(function(){for(k=+new Date/1e3,c.clearRect(0,0,),j=;j--;)c.fillText(,+5*Math.sin(k+j),*j)},50);this_can_be_really_long,a.heighta.width10';for(Y in $='')with(_.split($[Y]))_=join(pop());eval(_)
+      a.width = 100
+      a.height = 100
+      this_can_be_really_long = 'hello world'
+
+      setInterval(function() {
+        k = +new Date / 1000
+        c.clearRect(0, 0, a.width, a.height)
+        for (j=10;j--;)
+          c.fillText(this_can_be_really_long,
+            10 + Math.sin(k + j) * 5, 10 * j)
+      }, 50)
 
       // END
     </script>
