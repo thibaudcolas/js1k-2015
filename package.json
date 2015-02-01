@@ -26,7 +26,8 @@
   },
   "scripts": {
     "start": "gulp serve",
-    "build": "gulp build",
+    "build": "gulp build:uglify",
+    "build:closure": "gulp build:closure",
     "test": "wc -c demo/*.js"
   }
 }

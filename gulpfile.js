@@ -35,6 +35,8 @@ gulp.task('closure', function() {
       sel: 'script[type=demo]'
     }))
     .pipe(rename('source-crushed.js'))
+    .pipe(bytediff.start())
+    .pipe(bytediff.stop())
     .pipe(closure({
       compilerPath: 'bower_components/closure-compiler/compiler.jar',
       fileName: 'source-crushed.js',
@@ -45,6 +47,8 @@ gulp.task('closure', function() {
       }
     }))
     .pipe(jscrush())
+    .pipe(bytediff.start())
+    .pipe(bytediff.stop())
     .pipe(micro({limit: 1024}))
     .pipe(gulp.dest('demo'));
 });
@@ -58,7 +62,18 @@ gulp.task('extract', function() {
     .pipe(gulp.dest('demo'));
 });
 
-gulp.task('build', ['uglify', 'extract'], function() {
+gulp.task('build:uglify', ['uglify', 'extract'], function() {
+  return gulp.src('src/*.html')
+    .pipe(htmlreplace({
+      demo: {
+        src: fs.readFileSync('demo/source-crushed.js').toString(),
+        tpl: '<script type="demo">%s</script>'
+      }
+    }))
+    .pipe(gulp.dest('demo'));
+});
+
+gulp.task('build:closure', ['closure', 'extract'], function() {
   return gulp.src('src/*.html')
     .pipe(htmlreplace({
       demo: {
@@ -103,4 +118,4 @@ browserSync.emitter.on('client:connected', function() {
       }));
 });
 
-gulp.task('default', ['build']);
+gulp.task('default', ['build:uglify']);

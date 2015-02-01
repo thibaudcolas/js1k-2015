@@ -10,12 +10,15 @@ My attempts and tools for JS1K 2015, Hype Train edition.
 
 ## Tooling
 
+Contains both UglifyJS & Closure Compiler. Uglify is faster than Closure, but Closure's output is slightly smaller.
+
 ~~~bash
 npm install
 bower install
 
 npm run start
 npm run build
+npm run build:closure
 npm run test
 ~~~
 
