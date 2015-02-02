@@ -119,9 +119,9 @@
     <!-- build:demo -->
     <script type="demo">
       width = a.width;
-      halfwidth = width / 2;
-      height = halfwidth;
-      halfheight = height / 2;
+      halfWidth = width / 2;
+      height = halfWidth;
+      halfHeight = height / 2;
 
       fps = 30;
       now = then = Date.now();
@@ -131,7 +131,7 @@
       delta = 0;
 
       distance = 0;
-      speed = 100;
+      speed = 50;
 
       colors = [
         {
@@ -173,7 +173,7 @@
         c.fillStyle=colors[0].sky;
         for (var i = 0; i < width / 10; i++) {
           // Sky weather.
-          c.fillRect(Math.random() * width - 1, Math.random() * halfheight - 1, 1, 1);
+          c.fillRect(Math.random() * width - 1, Math.random() * halfHeight - 1, 1, 1);
 
           // Clouds.
           c.globalAlpha = 0.2;
@@ -186,39 +186,43 @@
 
       function drawGround(t, dt) {
         // Horizon.
-        drawRect(colors[0].far, 0, halfheight, width, 2);
-        drawRect(colors[0].sky, 0, halfheight, width, 1);
+        drawRect(colors[0].far, 0, halfHeight, width, 2);
+        drawRect(colors[0].sky, 0, halfHeight, width, 1);
 
         // Depth effect.
         c.globalAlpha = 0.9;
-        distance += speed * (dt / 36e5);
+        // TODO Improve the effect.
         for (var i = 0; i < 70; i++) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 18 > 9) {
-            drawRect(colors[0].far, 0, halfheight * (1 + i / 70), width, halfheight / 70);
+            drawRect(colors[0].far, 0, halfHeight * (1 + i / 70), width, halfHeight / 70);
+          }
+        }
+      }
+
+      function drawTrack(centerBottom) {
+        c.fillStyle=colors[0].other;
+
+        // Tracks
+        c.beginPath();
+        c.moveTo((centerBottom - 45) - 5, height);
+        c.lineTo(centerBottom - 2, halfHeight + 1);
+        c.lineTo(centerBottom - 45, height);
+        c.moveTo(centerBottom + 45, height);
+        c.lineTo(centerBottom + 2, halfHeight + 1);
+        c.lineTo((centerBottom + 45) + 5, height);
+        c.fill();
+
+        // Depth effect.
+        // TODO Improve the effect.
+        for (var i = 0; i < 50; i++) {
+          if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 4 > 3) {
+            drawRect(colors[0].other, centerBottom - (65 * (i + 1) / 55), halfHeight * (1 + i / 50), (65 * (i + 1) / 55) * 2, halfHeight / 50);
           }
         }
       }
 
       function drawRails(t, dt) {
-        c.fillStyle=colors[0].other;
-
-        // Tracks
-        c.beginPath();
-        c.moveTo((halfwidth - 45) - 5, height);
-        c.lineTo(halfwidth - 2, halfheight + 1);
-        c.lineTo(halfwidth - 45, height);
-        c.moveTo(halfwidth + 45, height);
-        c.lineTo(halfwidth + 2, halfheight + 1);
-        c.lineTo((halfwidth + 45) + 5, height);
-        c.fill();
-
-        // Depth effect.
-        distance += speed * (dt / 36e5);
-        for (var i = 0; i < 50; i++) {
-          if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 4 > 3) {
-            drawRect(colors[0].other, halfwidth - (65 * (i + 1) / 55), halfheight * (1 + i / 50), (65 * (i + 1) / 55) * 2, halfheight / 50);
-          }
-        }
+        drawTrack(halfWidth);
       }
 
       function loop() {
@@ -230,6 +234,8 @@
         if (delta > interval) {
           then = now - (delta % interval);
           smooth = then / smoothFactor;
+
+          distance += speed * (delta / 36e5);
 
           drawBackground(smooth);
           drawSky(smooth);
