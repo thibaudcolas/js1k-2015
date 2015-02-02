@@ -118,23 +118,26 @@
     </script>
     <!-- build:demo -->
     <script type="demo">
-      width = a.width;
-      halfWidth = width / 2;
-      height = halfWidth;
-      halfHeight = height / 2;
+      'use strict';
 
-      fps = 30;
-      now = then = Date.now();
-      smoothFactor = 1000;
-      smooth = now / smoothFactor;
-      interval = 1000 / fps;
-      delta = 0;
+      var width = a.width;
+      var halfWidth = width / 2;
+      var height = halfWidth;
+      var halfHeight = height / 2;
 
-      distance = 0;
-      speed = 50;
+      var fps = 30;
+      var now = Date.now();
+      var then = 0;
+      var smoothFactor = 1000;
+      var smooth = now / smoothFactor;
+      var interval = 1000 / fps;
+      var delta = 0;
 
-      palette = 0;
-      colors = [
+      var distance = 0;
+      var speed = 50;
+
+      var palette = 0;
+      var colors = [
         {
           background: '#e5ddac', // 229 221 172
           far: '#efe9cd',
@@ -186,7 +189,7 @@
         c.fillRect(x, y, w, h);
       }
 
-      bg = c.createLinearGradient(0, 0, 0, height);
+      var bg = c.createLinearGradient(0, 0, 0, height);
       bg.addColorStop(0, colors[palette].background);
       bg.addColorStop(0.45, colors[palette].far);
       bg.addColorStop(0.5, colors[palette].sky);
