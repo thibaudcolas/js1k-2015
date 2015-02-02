@@ -1,7 +1,7 @@
 js1k-2015
 =========
 
-My attempts and tools for JS1K 2015, Hype Train edition.
+>My attempts and tools for JS1K 2015, Hype Train edition. — [Try it online!](https://rawgit.com/ThibWeb/js1k-2015/master/src/traindemo.html)
 
 ## Theme
 
