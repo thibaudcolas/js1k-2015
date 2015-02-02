@@ -118,8 +118,6 @@
     </script>
     <!-- build:demo -->
     <script type="demo">
-      text = Math.random();
-
       width = 600;
       halfwidth = width / 2;
       height = halfwidth;
@@ -127,6 +125,8 @@
 
       fps = 30;
       now = then = Date.now();
+      smoothFactor = 1000;
+      smooth = now / smoothFactor;
       interval = 1000 / fps;
       delta = 0;
 
@@ -145,7 +145,7 @@
       // with(c) {}
 
       onclick = function() {
-        text = Math.random();
+
       };
 
       // I'm going to draw a lot of rectangles.
@@ -155,11 +155,11 @@
       }
 
       sky = c.createLinearGradient(0, 0, 0, 255);
-      sky.addColorStop(0.1, colors[0].background);
-      sky.addColorStop(0.5, colors[0].far);
+      sky.addColorStop(0.2, colors[0].background);
+      sky.addColorStop(0.6, colors[0].far);
       sky.addColorStop(1, colors[0].sky);
 
-      function drawSky() {
+      function drawSky(t) {
         // Sky background.
         drawRect(sky, 0, 0, width, halfheight);
 
@@ -167,10 +167,16 @@
         c.fillStyle=colors[0].sky;
         for (var i = 0; i < width / 5; i++) {
           c.fillRect(Math.random() * width - 1, Math.random() * height - 1, 1, 1);
+
+          c.globalAlpha = 0.2;
+          c.beginPath();
+          c.arc(i * 12,  Math.cos(i + t) * 5 - 5, 30 + Math.sin((i % 3)) * 5, 0, Math.PI);
+          c.fill();
+          c.globalAlpha = 1;
         }
       }
 
-      function drawGround() {
+      function drawGround(t) {
         drawRect(colors[0].background, 0, halfheight, width, halfheight);
         drawRect(colors[0].far, 0, halfheight, width, 2);
         drawRect(colors[0].sky, 0, halfheight, width, 1);
@@ -184,14 +190,11 @@
 
         if (delta > interval) {
           then = now - (delta % interval);
+          smooth = then / smoothFactor;
 
           // c.clearRect(0, 0, width, height);
-          drawSky();
-          drawGround();
-
-          for (j=3;j--;) {
-            c.fillText(text, 10 + Math.sin(now / 100 + j) * 5, 20 + 10 * j);
-          }
+          drawSky(smooth);
+          drawGround(smooth);
         }
       }
 
