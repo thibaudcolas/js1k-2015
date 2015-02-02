@@ -131,7 +131,7 @@
       delta = 0;
 
       distance = 0;
-      speed = 50;
+      speed = 100;
 
       colors = [
         {
@@ -157,20 +157,25 @@
         c.fillRect(x, y, w, h);
       }
 
-      sky = c.createLinearGradient(0, 0, 0, 255);
-      sky.addColorStop(0.2, colors[0].background);
-      sky.addColorStop(0.6, colors[0].far);
-      sky.addColorStop(1, colors[0].sky);
+      bg = c.createLinearGradient(0, 0, 0, height);
+      bg.addColorStop(0, colors[0].background);
+      bg.addColorStop(0.45, colors[0].far);
+      bg.addColorStop(0.5, colors[0].sky);
+      bg.addColorStop(0.51, colors[0].background);
+      bg.addColorStop(1, colors[0].far);
+
+      // Draws the level background.
+      function drawBackground() {
+        drawRect(bg, 0, 0, width, height);
+      }
 
       function drawSky(t) {
-        // Sky background.
-        drawRect(sky, 0, 0, width, halfheight);
-
-        // Sky weather.
         c.fillStyle=colors[0].sky;
-        for (var i = 0; i < width / 5; i++) {
-          c.fillRect(Math.random() * width - 1, Math.random() * height - 1, 1, 1);
+        for (var i = 0; i < width / 10; i++) {
+          // Sky weather.
+          c.fillRect(Math.random() * width - 1, Math.random() * halfheight - 1, 1, 1);
 
+          // Clouds.
           c.globalAlpha = 0.2;
           c.beginPath();
           c.arc(i * 12,  Math.cos(i + t) * 5 - 5, 30 + Math.sin((i % 3)) * 5, 0, Math.PI);
@@ -180,8 +185,6 @@
       }
 
       function drawGround(t, dt) {
-        // Ground background.
-        drawRect(colors[0].background, 0, halfheight, width, halfheight);
         // Horizon.
         drawRect(colors[0].far, 0, halfheight, width, 2);
         drawRect(colors[0].sky, 0, halfheight, width, 1);
@@ -195,6 +198,10 @@
         }
       }
 
+      function drawRails(t, dt) {
+
+      }
+
       function loop() {
         requestAnimationFrame(loop);
 
@@ -204,10 +211,10 @@
         if (delta > interval) {
           then = now - (delta % interval);
           smooth = then / smoothFactor;
-
-          // c.clearRect(0, 0, width, height);
+          drawBackground(smooth);
           drawSky(smooth);
           drawGround(smooth, delta);
+          drawRails(smooth, delta);
         }
       }
 
