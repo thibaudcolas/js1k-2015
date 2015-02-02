@@ -108,11 +108,11 @@
       // true enables webgl shim (exposes `g`), false enables canvas shim (exposes `c`)
       var TOKEN_WEBGL = false;
       // px, 0 means always 100%
-      var TOKEN_MAX_WIDTH = 0;
+      var TOKEN_MAX_WIDTH = 600;
       // px, 0 means always 100%
-      var TOKEN_MAX_HEIGHT = 0;
+      var TOKEN_MAX_HEIGHT = 300;
       // only if width<100%
-      var TOKEN_CENTER_CANVAS = false;
+      var TOKEN_CENTER_CANVAS = true;
       // "press" reload button on orientation change?
       var TOKEN_RELOAD_ONORIENTATIONCHANGE = true;
     </script>
@@ -151,10 +151,16 @@
       sky.addColorStop(0, colors[0].background);
       sky.addColorStop(0.5, colors[0].far);
       sky.addColorStop(1, colors[0].sky);
-      // sky.addColorStop(1, 'transparent');
 
       function drawSky() {
+        // Sky background.
         drawRect(sky, 0, 0, width, halfheight);
+
+        // Sky weather.
+        c.fillStyle=colors[0].sky;
+        for (var i = 0; i < width / 10; i++) {
+          c.fillRect(Math.random() * width - 1, Math.random() * height - 1, 1, 1);
+        }
       }
 
       function drawGround() {
@@ -164,7 +170,7 @@
       }
 
       function loop() {
-        // c.clearRect(0, 0, a.width, a.height);
+        // c.clearRect(0, 0, width, height);
         drawSky();
         drawGround();
 
