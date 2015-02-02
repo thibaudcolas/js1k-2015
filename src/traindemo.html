@@ -190,6 +190,7 @@
         drawRect(colors[0].sky, 0, halfheight, width, 1);
 
         // Depth effect.
+        c.globalAlpha = 0.9;
         distance += speed * (dt / 36e5);
         for (var i = 0; i < 70; i++) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 18 > 9) {
@@ -199,7 +200,24 @@
       }
 
       function drawRails(t, dt) {
+        c.strokeStyle=colors[0].other;
 
+        // Tracks
+        c.beginPath();
+        c.moveTo(halfwidth - 50, height);
+        c.lineTo(halfwidth - 1, halfheight + 1);
+        c.moveTo(halfwidth + 1, halfheight + 1);
+        c.lineTo(halfwidth + 50, height);
+        c.stroke();
+
+        // Depth effect.
+        c.globalAlpha = 0.9;
+        distance += speed * (dt / 36e5);
+        for (var i = 0; i < 50; i++) {
+          if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 18 > 9) {
+            drawRect(colors[0].other, halfwidth - (60 * (i + 1) / 50), halfheight * (1 + i / 50), (60 * (i + 1) / 50) * 2, halfheight / 50);
+          }
+        }
       }
 
       function loop() {
