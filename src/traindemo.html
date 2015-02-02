@@ -181,6 +181,8 @@
 
       onclick = function() {
         speed += 10;
+        palette = palette > 3 ? 0 : palette + 1;
+        createBackground();
       };
 
       // I'm going to draw a lot of rectangles.
@@ -189,12 +191,17 @@
         c.fillRect(x, y, w, h);
       }
 
-      var bg = c.createLinearGradient(0, 0, 0, height);
-      bg.addColorStop(0, colors[palette].background);
-      bg.addColorStop(0.45, colors[palette].far);
-      bg.addColorStop(0.5, colors[palette].sky);
-      bg.addColorStop(0.51, colors[palette].background);
-      bg.addColorStop(1, colors[palette].far);
+      var bg = null;
+      function createBackground() {
+
+        bg = c.createLinearGradient(0, 0, 0, height);
+        bg.addColorStop(0, colors[palette].background);
+        bg.addColorStop(0.45, colors[palette].far);
+        bg.addColorStop(0.5, colors[palette].sky);
+        bg.addColorStop(0.51, colors[palette].background);
+        bg.addColorStop(1, colors[palette].far);
+      }
+      createBackground();
 
       // Draws the level background.
       function drawBackground() {
