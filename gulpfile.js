@@ -107,6 +107,7 @@ browserSync.emitter.on('client:connected', function() {
       .pipe(rename('JS1K demo'))
       .pipe(bytediff.start())
       .pipe(uglify())
+      .on('error', gutil.log)
       .pipe(jscrush())
       .pipe(bytediff.stop())
       .pipe(gutil.buffer(function(err, data){
