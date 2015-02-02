@@ -130,6 +130,9 @@
       interval = 1000 / fps;
       delta = 0;
 
+      distance = 0;
+      speed = 50;
+
       colors = [
         {
           background: '#e5ddac', // 229 221 172
@@ -145,7 +148,7 @@
       // with(c) {}
 
       onclick = function() {
-
+        speed += 10;
       };
 
       // I'm going to draw a lot of rectangles.
@@ -176,10 +179,20 @@
         }
       }
 
-      function drawGround(t) {
+      function drawGround(t, dt) {
+        // Ground background.
         drawRect(colors[0].background, 0, halfheight, width, halfheight);
+        // Horizon.
         drawRect(colors[0].far, 0, halfheight, width, 2);
         drawRect(colors[0].sky, 0, halfheight, width, 1);
+
+        // Depth effect.
+        distance += speed * (dt / 36e5);
+        for (var i = 0; i < 70; i++) {
+          if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 18 > 9) {
+            drawRect(colors[0].far, 0, halfheight * (1 + i / 70), width, halfheight / 70);
+          }
+        }
       }
 
       function loop() {
@@ -194,7 +207,7 @@
 
           // c.clearRect(0, 0, width, height);
           drawSky(smooth);
-          drawGround(smooth);
+          drawGround(smooth, delta);
         }
       }
 
