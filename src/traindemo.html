@@ -139,7 +139,6 @@
 
       onclick = function() {
         text = Math.random();
-        cs += 10;
       };
 
       // I'm going to draw a lot of rectangles.
@@ -148,8 +147,14 @@
         c.fillRect(x, y, w, h);
       }
 
+      sky = c.createLinearGradient(0, 0, 0, 255);
+      sky.addColorStop(0, colors[0].background);
+      sky.addColorStop(0.5, colors[0].far);
+      sky.addColorStop(1, colors[0].sky);
+      // sky.addColorStop(1, 'transparent');
+
       function drawSky() {
-        drawRect(colors[0].background, 0, 0, width, halfheight);
+        drawRect(sky, 0, 0, width, halfheight);
       }
 
       function drawGround() {
