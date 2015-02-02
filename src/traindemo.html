@@ -133,6 +133,7 @@
       distance = 0;
       speed = 50;
 
+      palette = 0;
       colors = [
         {
           background: '#e5ddac', // 229 221 172
@@ -140,6 +141,34 @@
           sky: '#ffffff',
           entity: '#61001d', // 97 0 29
           other: '#8d494d'
+        },
+        {
+          background: '#CF7081',
+          far: '#EFB4BF',
+          sky: '#F7DEE7',
+          entity: '#58182E',
+          other: '#93272C'
+        },
+        {
+          background: '#C4E8F9',
+          far: '#FFFBE1',
+          sky: '#40456A',
+          entity: '#EC73BA',
+          other: '#BFB1C3'
+        },
+        {
+          background: '#1A2651',
+          far: '#101830',
+          sky: '#020202',
+          entity: '#B4FAE2',
+          other: '#81B3B1'
+        },
+        {
+          background: '#A0A0A0',
+          far: '#C0C0C0',
+          sky: '#E0E0E0',
+          entity: '#202020',
+          other: '#404040'
         }
       ];
 
@@ -158,11 +187,11 @@
       }
 
       bg = c.createLinearGradient(0, 0, 0, height);
-      bg.addColorStop(0, colors[0].background);
-      bg.addColorStop(0.45, colors[0].far);
-      bg.addColorStop(0.5, colors[0].sky);
-      bg.addColorStop(0.51, colors[0].background);
-      bg.addColorStop(1, colors[0].far);
+      bg.addColorStop(0, colors[palette].background);
+      bg.addColorStop(0.45, colors[palette].far);
+      bg.addColorStop(0.5, colors[palette].sky);
+      bg.addColorStop(0.51, colors[palette].background);
+      bg.addColorStop(1, colors[palette].far);
 
       // Draws the level background.
       function drawBackground() {
@@ -170,7 +199,7 @@
       }
 
       function drawSky(t) {
-        c.fillStyle=colors[0].sky;
+        c.fillStyle=colors[palette].sky;
         for (var i = 0; i < width / 10; i++) {
           // Sky weather.
           c.fillRect(Math.random() * width - 1, Math.random() * halfHeight - 1, 1, 1);
@@ -186,21 +215,21 @@
 
       function drawGround(t, dt) {
         // Horizon.
-        drawRect(colors[0].far, 0, halfHeight, width, 2);
-        drawRect(colors[0].sky, 0, halfHeight, width, 1);
+        drawRect(colors[palette].far, 0, halfHeight, width, 2);
+        drawRect(colors[palette].sky, 0, halfHeight, width, 1);
 
         // Depth effect.
         c.globalAlpha = 0.9;
         // TODO Improve the effect.
         for (var i = 0; i < 70; i++) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 18 > 9) {
-            drawRect(colors[0].far, 0, halfHeight * (1 + i / 70), width, halfHeight / 70);
+            drawRect(colors[palette].far, 0, halfHeight * (1 + i / 70), width, halfHeight / 70);
           }
         }
       }
 
       function drawTrack(centerBottom) {
-        c.fillStyle=colors[0].other;
+        c.fillStyle=colors[palette].other;
 
         // Tracks
         c.beginPath();
@@ -216,7 +245,7 @@
         // TODO Improve the effect.
         for (var i = 0; i < 50; i++) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 4 > 3) {
-            drawRect(colors[0].other, centerBottom - (65 * (i + 1) / 55), halfHeight * (1 + i / 50), (65 * (i + 1) / 55) * 2, halfHeight / 50);
+            drawRect(colors[palette].other, centerBottom - (65 * (i + 1) / 55), halfHeight * (1 + i / 50), (65 * (i + 1) / 55) * 2, halfHeight / 50);
           }
         }
       }
