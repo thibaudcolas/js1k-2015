@@ -22,6 +22,17 @@ npm run build:closure
 npm run test
 ~~~
 
+## TODO
+
+- Wind effect with white transparent lines coming across the screen (towards player?)
+- Trees (as awesome as http://js1k.com/2011-trail/demo/994)
+- Color palette like Furbee's with hsla http://www.romancortes.com/blog/furbee-my-js1k-spring-13-entry/ `‘hsla(’+[(j&15)*8-x,(j&15)*6+x+’%',(j<17)*60+(j&15)*7+’%',1]+’)’``
+- Train model
+- Two tracks
+- Switch between tracks
+- Score
+- People on the tracks!
+
 ## Ideas
 
 - http://knowyourmeme.com/memes/hype-train
