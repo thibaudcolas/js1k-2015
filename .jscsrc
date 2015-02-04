@@ -1,0 +1,7 @@
+{
+  "preset": "google",
+  "maximumLineLength": 120,
+  "validateLineBreaks": "LF",
+  "validateIndentation": 2,
+  "excludeFiles": ["node_modules/**"]
+}

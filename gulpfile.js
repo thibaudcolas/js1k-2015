@@ -95,28 +95,39 @@ gulp.task('serve', function() {
     logFileChanges: false
   });
 
-  // console.log(browserSync.emitter);
-  // gulp.watch('src/*.html', ['build', browserSync.reload]);
+  browserSync.emitter.on('client:connected', function() {
+    gulp.src('src/*.html')
+        .pipe(extract({
+          sel: 'script[type=demo]'
+        }))
+        .pipe(rename('JS1K demo'))
+        .pipe(bytediff.start())
+        .pipe(uglify())
+        .on('error', gutil.log)
+        .pipe(jscrush())
+        .pipe(bytediff.stop())
+        .pipe(gutil.buffer(function(err, data) {
+          // console.log(Object.keys(data[0]));
+          var before = data[0].bytediff.startSize;
+          var after = data[0]._contents.length;
+          var color = after < 1024 ? 'lime' : 'red';
+          browserSync.notify(before + ' ➞ <span style="color:' + color + ';">' + after + '</span>', 5000);
+        }));
+  });
 });
 
-browserSync.emitter.on('client:connected', function() {
-  gulp.src('src/*.html')
-      .pipe(extract({
-        sel: 'script[type=demo]'
-      }))
-      .pipe(rename('JS1K demo'))
-      .pipe(bytediff.start())
-      .pipe(uglify())
-      .on('error', gutil.log)
-      .pipe(jscrush())
-      .pipe(bytediff.stop())
-      .pipe(gutil.buffer(function(err, data){
-        // console.log(Object.keys(data[0]));
-        var before = data[0].bytediff.startSize;
-        var after = data[0]._contents.length;
-        var color = after < 1024 ? 'lime' : 'red';
-        browserSync.notify(before + ' ➞ <span style="color:' + color + ';">' + after + '</span>', 5000);
-      }));
+gulp.task('serve:silent', function() {
+  browserSync({
+    server: {
+      baseDir: ['src'],
+      directory: true
+    },
+    files: 'src/*.html',
+    online: false,
+    logFileChanges: false,
+    notify: false,
+    open: false
+  });
 });
 
 gulp.task('default', ['build:uglify']);
