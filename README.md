@@ -32,6 +32,14 @@ npm run test
 - Switch between tracks
 - Score
 - People on the tracks!
+- Game over screen: full screen color.entity, centered score in sky color
+- Score rules:
+    + active: X points for each people killed
+    + active: X*2 points for each people not killed
+    + (active: X points for each rail change?)
+- Game over rules:
+    - After first person, game over at kill miss
+    - After first person, game over at first kill
 
 ## Ideas
 
