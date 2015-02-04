@@ -129,6 +129,9 @@
       var railWidth = trackInnerWidth / 5;
       var trackOuterWidth = trackInnerWidth + railWidth * 2;
 
+      var trainWidth = 20;
+      var trainPosition = -1;
+
       var fps = 30;
       var now = Date.now();
       var then = 0;
@@ -186,6 +189,7 @@
       onclick = function() {
         speed += 10;
         palette = palette > 3 ? 0 : palette + 1;
+        trainPosition = -trainPosition;
         createBackground();
       };
 
@@ -271,8 +275,15 @@
       }
 
       function drawRails(t, dt) {
-        drawTrack(halfWidth - halfWidth * 1 / 2, halfWidth - halfWidth * 2 / 9);
+        drawTrack(halfWidth - halfWidth / 2, halfWidth - halfWidth / 9);
         drawTrack(halfWidth + halfWidth / 2, halfWidth + halfWidth / 9);
+      }
+
+      function drawTrain() {
+        c.fillStyle = colors[palette].entity;
+        c.beginPath();
+        c.arc(halfWidth - trainPosition * (halfWidth / 2), height - trainWidth, trainWidth, 0, Math.PI * 2);
+        c.fill();
       }
 
       function loop() {
@@ -291,6 +302,7 @@
           drawSky(smooth);
           drawGround(smooth, delta);
           drawRails(smooth, delta);
+          drawTrain();
         }
       }
 
