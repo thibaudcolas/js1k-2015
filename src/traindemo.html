@@ -125,6 +125,9 @@
       var height = halfWidth;
       var halfHeight = height / 2;
 
+      var trackInnerWidth = width / 9;
+      var railWidth = trackInnerWidth / 5;
+
       var fps = 30;
       var now = Date.now();
       var then = 0;
@@ -238,30 +241,31 @@
         }
       }
 
-      function drawTrack(centerBottom) {
-        c.fillStyle=colors[palette].other;
+      function drawTrack(startX, horizonX) {
+        c.fillStyle = colors[palette].other;
 
         // Tracks
         c.beginPath();
-        c.moveTo((centerBottom - 45) - 5, height);
-        c.lineTo(centerBottom - 2, halfHeight + 1);
-        c.lineTo(centerBottom - 45, height);
-        c.moveTo(centerBottom + 45, height);
-        c.lineTo(centerBottom + 2, halfHeight + 1);
-        c.lineTo((centerBottom + 45) + 5, height);
+        c.moveTo((startX - trackInnerWidth) - railWidth, height);
+        c.lineTo(horizonX - (railWidth / 2), halfHeight + 1);
+        c.lineTo(startX - trackInnerWidth, height);
+        c.moveTo(startX + trackInnerWidth, height);
+        c.lineTo(horizonX + (railWidth / 2), halfHeight + 1);
+        c.lineTo((startX + trackInnerWidth) + railWidth, height);
         c.fill();
 
         // Depth effect.
         // TODO Improve the effect.
         for (var i = 0; i < 50; i++) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 4 > 3) {
-            drawRect(colors[palette].other, centerBottom - (65 * (i + 1) / 55), halfHeight * (1 + i / 50), (65 * (i + 1) / 55) * 2, halfHeight / 50);
+            //drawRect(colors[palette].other, horizonX - (65 * (i + 1) / 55), halfHeight * (1 + i / 50), (65 * (i + 1) / 55) * 2, halfHeight / 50);
           }
         }
       }
 
       function drawRails(t, dt) {
-        drawTrack(halfWidth);
+        drawTrack(halfWidth - halfWidth / 2, halfWidth - halfWidth / 9);
+        drawTrack(halfWidth + halfWidth / 2, halfWidth + halfWidth / 9);
       }
 
       function loop() {
