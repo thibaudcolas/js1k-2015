@@ -143,6 +143,8 @@
       var distance = 0;
       var speed = 50;
 
+      var score = 0;
+
       var palette = 0;
       var colors = [
         {
@@ -188,6 +190,7 @@
 
       onclick = function() {
         speed += 10;
+        score += 10;
         palette = palette > 3 ? 0 : palette + 1;
         trainPosition = -trainPosition;
         createBackground();
@@ -282,8 +285,15 @@
       function drawTrain() {
         c.fillStyle = colors[palette].entity;
         c.beginPath();
-        c.arc(halfWidth - trainPosition * (halfWidth / 2), height - trainWidth, trainWidth, 0, Math.PI * 2);
+        c.arc(halfWidth - trainPosition * (halfWidth / 2), height, trainWidth, Math.PI, Math.PI * 2);
         c.fill();
+      }
+
+      function drawScore() {
+        c.globalAlpha = 1;
+        c.font = 'bold 30px mono';
+        c.fillStyle = colors[palette].sky;
+        c.fillText(score, 10, 50);
       }
 
       function loop() {
@@ -303,6 +313,7 @@
           drawGround(smooth, delta);
           drawRails(smooth, delta);
           drawTrain();
+          drawScore();
         }
       }
 
