@@ -1,26 +1,67 @@
 
-      width = a.width;
-      halfwidth = width / 2;
-      height = halfwidth;
-      halfheight = height / 2;
+      'use strict';
 
-      fps = 30;
-      now = then = Date.now();
-      smoothFactor = 1000;
-      smooth = now / smoothFactor;
-      interval = 1000 / fps;
-      delta = 0;
+      var width = a.width;
+      var halfWidth = width / 2;
+      var height = halfWidth;
+      var halfHeight = height / 2;
 
-      distance = 0;
-      speed = 100;
+      var trackInnerWidth = width / 9;
+      var railWidth = trackInnerWidth / 5;
+      var trackOuterWidth = trackInnerWidth + railWidth * 2;
 
-      colors = [
+      var trainWidth = 20;
+      var trainPosition = -1;
+
+      var fps = 30;
+      var now = Date.now();
+      var then = 0;
+      var smoothFactor = 1000;
+      var smooth = now / smoothFactor;
+      var interval = 1000 / fps;
+      var delta = 0;
+
+      var distance = 0;
+      var speed = 50;
+
+      var score = 0;
+
+      var palette = 0;
+      var colors = [
         {
           background: '#e5ddac', // 229 221 172
           far: '#efe9cd',
           sky: '#ffffff',
           entity: '#61001d', // 97 0 29
           other: '#8d494d'
+        },
+        {
+          background: '#CF7081',
+          far: '#EFB4BF',
+          sky: '#F7DEE7',
+          entity: '#58182E',
+          other: '#93272C'
+        },
+        {
+          background: '#C4E8F9',
+          far: '#FFFBE1',
+          sky: '#40456A',
+          entity: '#EC73BA',
+          other: '#BFB1C3'
+        },
+        {
+          background: '#1A2651',
+          far: '#101830',
+          sky: '#020202',
+          entity: '#B4FAE2',
+          other: '#81B3B1'
+        },
+        {
+          background: '#A0A0A0',
+          far: '#C0C0C0',
+          sky: '#E0E0E0',
+          entity: '#202020',
+          other: '#404040'
         }
       ];
 
@@ -30,6 +71,10 @@
 
       onclick = function() {
         speed += 10;
+        score += 10;
+        palette = palette > 3 ? 0 : palette + 1;
+        trainPosition = -trainPosition;
+        createBackground();
       };
 
       // I'm going to draw a lot of rectangles.
@@ -38,12 +83,17 @@
         c.fillRect(x, y, w, h);
       }
 
-      bg = c.createLinearGradient(0, 0, 0, height);
-      bg.addColorStop(0, colors[0].background);
-      bg.addColorStop(0.45, colors[0].far);
-      bg.addColorStop(0.5, colors[0].sky);
-      bg.addColorStop(0.51, colors[0].background);
-      bg.addColorStop(1, colors[0].far);
+      var bg = null;
+      function createBackground() {
+
+        bg = c.createLinearGradient(0, 0, 0, height);
+        bg.addColorStop(0, colors[palette].background);
+        bg.addColorStop(0.45, colors[palette].far);
+        bg.addColorStop(0.5, colors[palette].sky);
+        bg.addColorStop(0.51, colors[palette].background);
+        bg.addColorStop(1, colors[palette].far);
+      }
+      createBackground();
 
       // Draws the level background.
       function drawBackground() {
@@ -51,10 +101,10 @@
       }
 
       function drawSky(t) {
-        c.fillStyle=colors[0].sky;
+        c.fillStyle=colors[palette].sky;
         for (var i = 0; i < width / 10; i++) {
           // Sky weather.
-          c.fillRect(Math.random() * width - 1, Math.random() * halfheight - 1, 1, 1);
+          c.fillRect(Math.random() * width - 1, Math.random() * halfHeight - 1, 1, 1);
 
           // Clouds.
           c.globalAlpha = 0.2;
@@ -67,39 +117,64 @@
 
       function drawGround(t, dt) {
         // Horizon.
-        drawRect(colors[0].far, 0, halfheight, width, 2);
-        drawRect(colors[0].sky, 0, halfheight, width, 1);
+        drawRect(colors[palette].far, 0, halfHeight, width, 2);
+        drawRect(colors[palette].sky, 0, halfHeight, width, 1);
 
         // Depth effect.
         c.globalAlpha = 0.9;
-        distance += speed * (dt / 36e5);
+        // TODO Improve the effect.
         for (var i = 0; i < 70; i++) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 18 > 9) {
-            drawRect(colors[0].far, 0, halfheight * (1 + i / 70), width, halfheight / 70);
+            var y = halfHeight * (1 + i / 70);
+            drawRect(colors[palette].far, 0, y, width, halfHeight / 70);
+          }
+        }
+      }
+
+      function drawTrack(startX, horizonX) {
+        c.fillStyle = colors[palette].other;
+
+        // Tracks
+        c.beginPath();
+        c.moveTo((startX - trackInnerWidth) - railWidth, height);
+        c.lineTo(horizonX - (railWidth / 2), halfHeight + 1);
+        c.lineTo(startX - trackInnerWidth, height);
+        c.moveTo(startX + trackInnerWidth, height);
+        c.lineTo(horizonX + (railWidth / 2), halfHeight + 1);
+        c.lineTo((startX + trackInnerWidth) + railWidth, height);
+        c.fill();
+
+        // Depth effect.
+        // TODO Improve the effect.
+        for (var i = 0; i < 50; i++) {
+          if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 4 > 3) {
+            var x = horizonX; // horizonX - (trackOuterWidth * (i + railWidth / 2) / trackInnerWidth) - i * (horizonX / startX);// - (trackOuterWidth * (i + 1) / trackInnerWidth);
+            //var x = startX - (trackOuterWidth / trackInnerWidth) * (i + 1);
+            var y = halfHeight * (1 + i / 50);
+            var w = 50; //(trackOuterWidth * (i + 1) / trackInnerWidth) * 2;
+            var h = 2; //halfHeight / 50;
+            // drawRect(colors[palette].other, x, y, w, h);
           }
         }
       }
 
       function drawRails(t, dt) {
-        c.fillStyle=colors[0].other;
+        drawTrack(halfWidth - halfWidth / 2, halfWidth - halfWidth / 9);
+        drawTrack(halfWidth + halfWidth / 2, halfWidth + halfWidth / 9);
+      }
 
-        // Tracks
+      function drawTrain() {
+        c.fillStyle = colors[palette].entity;
         c.beginPath();
-        c.moveTo((halfwidth - 45) - 5, height);
-        c.lineTo(halfwidth - 2, halfheight + 1);
-        c.lineTo(halfwidth - 45, height);
-        c.moveTo(halfwidth + 45, height);
-        c.lineTo(halfwidth + 2, halfheight + 1);
-        c.lineTo((halfwidth + 45) + 5, height);
+        c.arc(halfWidth - trainPosition * (halfWidth / 2), height, trainWidth, Math.PI, Math.PI * 2);
         c.fill();
+      }
 
-        // Depth effect.
-        distance += speed * (dt / 36e5);
-        for (var i = 0; i < 50; i++) {
-          if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 4 > 3) {
-            drawRect(colors[0].other, halfwidth - (65 * (i + 1) / 55), halfheight * (1 + i / 50), (65 * (i + 1) / 55) * 2, halfheight / 50);
-          }
-        }
+      function drawScore() {
+        c.globalAlpha = 1;
+        c.font = 'bold 30px mono';
+        c.fillStyle = colors[palette].sky;
+        c.fillText(score, 10, 50);
       }
 
       function loop() {
@@ -112,10 +187,14 @@
           then = now - (delta % interval);
           smooth = then / smoothFactor;
 
+          distance += speed * (delta / 36e5);
+
           drawBackground(smooth);
           drawSky(smooth);
           drawGround(smooth, delta);
           drawRails(smooth, delta);
+          drawTrain();
+          drawScore();
         }
       }
 
