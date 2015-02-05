@@ -187,6 +187,8 @@
       // Date.now -> +new Date
       // for (e in c) c[e[0]+e[2]+(e[6]||'')] = c[e];
       // with(c) {}
+      // circles.push([rand(w), rand(h), rand(80), rand(200)]);
+      // function signatures
 
       onclick = function() {
         speed += 10;
@@ -204,7 +206,6 @@
 
       var bg = null;
       function createBackground() {
-
         bg = c.createLinearGradient(0, 0, 0, height);
         bg.addColorStop(0, colors[palette].background);
         bg.addColorStop(0.45, colors[palette].far);

@@ -32,7 +32,7 @@ npm run test
 - Switch between tracks
 - Score
 - People on the tracks!
-- Game over screen: full screen color.entity, centered score in sky color
+- Game over screen: full screen color, centered score in sky color. Morale?
 - Proximity sensor screen: beware of close encounters
 - Score rules:
     + active: X points for each people killed
