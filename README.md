@@ -33,6 +33,7 @@ npm run test
 - Score
 - People on the tracks!
 - Game over screen: full screen color.entity, centered score in sky color
+- Proximity sensor screen: beware of close encounters
 - Score rules:
     + active: X points for each people killed
     + active: X*2 points for each people not killed
@@ -40,6 +41,13 @@ npm run test
 - Game over rules:
     - After first person, game over at kill miss
     - After first person, game over at first kill
+- Naming:
+    + Trolley Problem
+    + Tramway dilemma
+    + Hype train
+    + No Brakes
+    + Railroad
+    + Moral Brakes ?
 
 ## Ideas
 
