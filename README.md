@@ -41,13 +41,15 @@ npm run test
 - Game over rules:
     - After first person, game over at kill miss
     - After first person, game over at first kill
-- Naming:
-    + Trolley Problem
-    + Tramway dilemma
-    + Hype train
-    + No Brakes
-    + Railroad
-    + Moral Brakes ?
+
+## Naming / marketing
+
+- Trolley Problem
+- Tramway dilemma
+- Hype train
+- No Brakes
+- Railroad
+- Moral Brakes ?
 
 ## Ideas
 
