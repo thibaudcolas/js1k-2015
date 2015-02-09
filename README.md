@@ -50,6 +50,9 @@ npm run test
 - No Brakes
 - Railroad
 - Moral Brakes ?
+- Body count
+- Carmageddon
+- Karma
 
 ## Ideas
 
