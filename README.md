@@ -54,6 +54,12 @@ npm run test
 - Carmageddon
 - Karma
 
+### Names
+
+- Karmageddon
+- The trolley problem
+- Trolleyarmmageddon
+
 ## Ideas
 
 - http://knowyourmeme.com/memes/hype-train
