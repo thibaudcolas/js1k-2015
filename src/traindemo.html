@@ -221,13 +221,13 @@
       }
 
       function drawSky(t) {
-        c.fillStyle=colors[palette].sky;
+        c.fillStyle = colors[palette].sky;
         for (var i = 0; i < width / 10; i++) {
           // Sky weather.
           c.fillRect(Math.random() * width - 1, Math.random() * halfHeight - 1, 1, 1);
 
           // Clouds.
-          c.globalAlpha = 0.2;
+          c.globalAlpha = 0.3;
           c.beginPath();
           c.arc(i * 12,  Math.cos(i + t) * 5 - 5, 30 + Math.sin((i % 3)) * 5, 0, Math.PI);
           c.fill();
