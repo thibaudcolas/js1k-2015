@@ -292,7 +292,7 @@
 
       function drawScore() {
         c.globalAlpha = 1;
-        c.font = 'bold 30px mono';
+        c.font = 'bold 5vw mono';
         c.fillStyle = colors[palette].sky;
         c.fillText(score, 10, 50);
       }
@@ -301,6 +301,16 @@
         c.globalAlpha = 0.8;
         c.fillStyle = colors[palette].entity;
         c.fillRect(0, 0, width, height);
+      }
+
+      function gameOver() {
+        drawShock();
+        drawShock();
+        drawShock();
+        c.globalAlpha = 1;
+        c.font = 'bold 20vw mono';
+        c.fillStyle = colors[palette].sky;
+        c.fillText(score, halfWidth * (8 / 10), halfHeight + 40);
       }
 
       function loop() {
@@ -324,6 +334,10 @@
 
           if (Math.sin(smooth) > 0.999) {
             drawShock();
+          }
+
+          if (score > 50) {
+            gameOver();
           }
         }
       }
