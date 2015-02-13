@@ -297,6 +297,12 @@
         c.fillText(score, 10, 50);
       }
 
+      function drawShock() {
+        c.globalAlpha = 0.8;
+        c.fillStyle = colors[palette].entity;
+        c.fillRect(0, 0, width, height);
+      }
+
       function loop() {
         requestAnimationFrame(loop);
 
@@ -315,6 +321,10 @@
           drawRails(smooth, delta);
           drawTrain();
           drawScore();
+
+          if (Math.sin(smooth) > 0.999) {
+            drawShock();
+          }
         }
       }
 
