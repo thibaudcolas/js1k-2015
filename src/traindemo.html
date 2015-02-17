@@ -267,6 +267,12 @@
 
         c.fill();
 
+        // Debug rail
+        // c.moveTo(startX - 2, height);
+        // c.lineTo(horizonX, halfHeight);
+        // c.lineTo(startX + 2, height);
+        // c.fill();
+
         // Depth effect.
         // TODO Improve the effect.
         for (var i = 0; i < 50; i++) {
@@ -283,11 +289,12 @@
 
             drawRect(colors[palette].other, x, y, w, h);
 
-            c.beginPath();
-            c.moveTo(horizonX, halfHeight);
-            c.lineTo(x, y);
-            c.lineTo(startX, height);
-            c.stroke();
+            // Debug rail
+            // c.beginPath();
+            // c.moveTo(horizonX, halfHeight);
+            // c.lineTo(x, y);
+            // c.lineTo(startX, height);
+            // c.stroke();
           }
         }
       }
