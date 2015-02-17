@@ -278,14 +278,15 @@
         for (var i = 0; i < 50; i++) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 4 > 3) {
 
+            var w = trackOuterWidth * 2 * ((railWidth / 2 + i) / 50);
+            var h = halfHeight / 50;
+
+            // Calculate line equation.
             var a = halfHeight / (startX - horizonX);
             var b = height - startX * a;
 
             var y = halfHeight * (1 + (i / 50));
-            var x = (y - b) / a;
-
-            var w = trackInnerWidth; //(trackOuterWidth * (i + 1) / trackInnerWidth) * 2;
-            var h = halfHeight / 50;
+            var x = (y - b) / a - w / 2;
 
             drawRect(colors[palette].other, x, y, w, h);
 
