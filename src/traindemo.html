@@ -256,24 +256,38 @@
 
         // Tracks
         c.beginPath();
+
         c.moveTo((startX - trackInnerWidth) - railWidth, height);
         c.lineTo(horizonX - (railWidth / 2), halfHeight + 1);
         c.lineTo(startX - trackInnerWidth, height);
+
         c.moveTo(startX + trackInnerWidth, height);
         c.lineTo(horizonX + (railWidth / 2), halfHeight + 1);
         c.lineTo((startX + trackInnerWidth) + railWidth, height);
+
         c.fill();
 
         // Depth effect.
         // TODO Improve the effect.
         for (var i = 0; i < 50; i++) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 4 > 3) {
-            var x = horizonX; // horizonX - (trackOuterWidth * (i + railWidth / 2) / trackInnerWidth) - i * (horizonX / startX);// - (trackOuterWidth * (i + 1) / trackInnerWidth);
-            //var x = startX - (trackOuterWidth / trackInnerWidth) * (i + 1);
-            var y = halfHeight * (1 + i / 50);
-            var w = 50; //(trackOuterWidth * (i + 1) / trackInnerWidth) * 2;
-            var h = 2; //halfHeight / 50;
-            // drawRect(colors[palette].other, x, y, w, h);
+
+            var a = halfHeight / (startX - horizonX);
+            var b = height - startX * a;
+
+            var y = halfHeight * (1 + (i / 50));
+            var x = (y - b) / a;
+
+            var w = trackInnerWidth; //(trackOuterWidth * (i + 1) / trackInnerWidth) * 2;
+            var h = halfHeight / 50;
+
+            drawRect(colors[palette].other, x, y, w, h);
+
+            c.beginPath();
+            c.moveTo(horizonX, halfHeight);
+            c.lineTo(x, y);
+            c.lineTo(startX, height);
+            c.stroke();
           }
         }
       }
