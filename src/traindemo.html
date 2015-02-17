@@ -354,16 +354,18 @@
           drawScore();
 
           if (Math.sin(smooth) > 0.999) {
-            drawShock();
+            // TODO Uncomment.
+            //drawShock();
           }
 
-          if (score > 50) {
+          // TODO Switch to another trigger.
+          if (score > 100) {
             gameOver();
           }
         }
       }
 
-      loop();
+      requestAnimationFrame(loop);
     </script>
     <!-- endbuild -->
     <script>
