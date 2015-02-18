@@ -6,11 +6,11 @@
       var height = halfWidth;
       var halfHeight = height / 2;
 
-      var trackInnerWidth = width / 9;
+      var trackInnerWidth = width / 10;
       var railWidth = trackInnerWidth / 5;
       var trackOuterWidth = trackInnerWidth + railWidth * 2;
 
-      var trainWidth = 20;
+      var trainWidth = width / 20;
       var trainPosition = -1;
 
       var fps = 30;
@@ -68,6 +68,8 @@
       // Date.now -> +new Date
       // for (e in c) c[e[0]+e[2]+(e[6]||'')] = c[e];
       // with(c) {}
+      // circles.push([rand(w), rand(h), rand(80), rand(200)]);
+      // function signatures
 
       onclick = function() {
         speed += 10;
@@ -85,7 +87,6 @@
 
       var bg = null;
       function createBackground() {
-
         bg = c.createLinearGradient(0, 0, 0, height);
         bg.addColorStop(0, colors[palette].background);
         bg.addColorStop(0.45, colors[palette].far);
@@ -101,13 +102,13 @@
       }
 
       function drawSky(t) {
-        c.fillStyle=colors[palette].sky;
+        c.fillStyle = colors[palette].sky;
         for (var i = 0; i < width / 10; i++) {
           // Sky weather.
           c.fillRect(Math.random() * width - 1, Math.random() * halfHeight - 1, 1, 1);
 
           // Clouds.
-          c.globalAlpha = 0.2;
+          c.globalAlpha = 0.3;
           c.beginPath();
           c.arc(i * 12,  Math.cos(i + t) * 5 - 5, 30 + Math.sin((i % 3)) * 5, 0, Math.PI);
           c.fill();
@@ -122,11 +123,11 @@
 
         // Depth effect.
         c.globalAlpha = 0.9;
-        // TODO Improve the effect.
-        for (var i = 0; i < 70; i++) {
+        var n = 70;
+        for (var i = 0; i < n; i++) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 18 > 9) {
-            var y = halfHeight * (1 + i / 70);
-            drawRect(colors[palette].far, 0, y, width, halfHeight / 70);
+            var y = halfHeight * (1 + i / n);
+            drawRect(colors[palette].far, 0, y, width, halfHeight / n);
           }
         }
       }
@@ -136,24 +137,46 @@
 
         // Tracks
         c.beginPath();
+
         c.moveTo((startX - trackInnerWidth) - railWidth, height);
-        c.lineTo(horizonX - (railWidth / 2), halfHeight + 1);
+        c.lineTo(horizonX - (railWidth / 4), halfHeight + 1);
         c.lineTo(startX - trackInnerWidth, height);
+
         c.moveTo(startX + trackInnerWidth, height);
-        c.lineTo(horizonX + (railWidth / 2), halfHeight + 1);
+        c.lineTo(horizonX + (railWidth / 4), halfHeight + 1);
         c.lineTo((startX + trackInnerWidth) + railWidth, height);
+
         c.fill();
 
+        // Debug rail
+        // c.moveTo(startX - 2, height);
+        // c.lineTo(horizonX, halfHeight);
+        // c.lineTo(startX + 2, height);
+        // c.fill();
+
         // Depth effect.
-        // TODO Improve the effect.
-        for (var i = 0; i < 50; i++) {
+        var n = 70;
+        for (var i = 0; i < n; i++) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 4 > 3) {
-            var x = horizonX; // horizonX - (trackOuterWidth * (i + railWidth / 2) / trackInnerWidth) - i * (horizonX / startX);// - (trackOuterWidth * (i + 1) / trackInnerWidth);
-            //var x = startX - (trackOuterWidth / trackInnerWidth) * (i + 1);
-            var y = halfHeight * (1 + i / 50);
-            var w = 50; //(trackOuterWidth * (i + 1) / trackInnerWidth) * 2;
-            var h = 2; //halfHeight / 50;
-            // drawRect(colors[palette].other, x, y, w, h);
+
+            var w = trackOuterWidth * 2 * ((railWidth / 6 + i) / n);
+            var h = halfHeight / n;
+
+            // Calculate line equation.
+            var a = halfHeight / (startX - horizonX);
+            var b = height - startX * a;
+
+            var y = halfHeight * (1 + (i / n));
+            var x = (y - b) / a - w / 2;
+
+            drawRect(colors[palette].other, x, y, w, h);
+
+            // Debug rail
+            // c.beginPath();
+            // c.moveTo(horizonX, halfHeight);
+            // c.lineTo(x, y);
+            // c.lineTo(startX, height);
+            // c.stroke();
           }
         }
       }
@@ -172,9 +195,25 @@
 
       function drawScore() {
         c.globalAlpha = 1;
-        c.font = 'bold 30px mono';
+        c.font = 'bold 5vw mono';
         c.fillStyle = colors[palette].sky;
         c.fillText(score, 10, 50);
+      }
+
+      function drawShock() {
+        c.globalAlpha = 0.8;
+        c.fillStyle = colors[palette].entity;
+        c.fillRect(0, 0, width, height);
+      }
+
+      function gameOver() {
+        drawShock();
+        drawShock();
+        drawShock();
+        c.globalAlpha = 1;
+        c.font = 'bold 20vw mono';
+        c.fillStyle = colors[palette].sky;
+        c.fillText(score, halfWidth * (8 / 10), halfHeight + 40);
       }
 
       function loop() {
@@ -195,8 +234,18 @@
           drawRails(smooth, delta);
           drawTrain();
           drawScore();
+
+          if (Math.sin(smooth) > 0.999) {
+            // TODO Uncomment.
+            //drawShock();
+          }
+
+          // TODO Switch to another trigger.
+          if (score > 100) {
+            gameOver();
+          }
         }
       }
 
-      loop();
+      requestAnimationFrame(loop);
     
