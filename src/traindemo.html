@@ -243,10 +243,11 @@
         // Depth effect.
         c.globalAlpha = 0.9;
         // TODO Improve the effect.
-        for (var i = 0; i < 70; i++) {
+        var n = 70;
+        for (var i = 0; i < n; i++) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 18 > 9) {
-            var y = halfHeight * (1 + i / 70);
-            drawRect(colors[palette].far, 0, y, width, halfHeight / 70);
+            var y = halfHeight * (1 + i / n);
+            drawRect(colors[palette].far, 0, y, width, halfHeight / n);
           }
         }
       }
@@ -275,17 +276,18 @@
 
         // Depth effect.
         // TODO Improve the effect.
-        for (var i = 0; i < 50; i++) {
-          if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 4 > 3) {
+        var n = 70;
+        for (var i = 0; i < n; i++) {
+          if ((9 * Math.sin((50 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 4 > 3) {
 
-            var w = trackOuterWidth * 2 * ((railWidth / 2 + i) / 50);
-            var h = halfHeight / 50;
+            var w = trackOuterWidth * 2 * ((railWidth / 2 + i) / n);
+            var h = 1 + halfHeight / n;
 
             // Calculate line equation.
             var a = halfHeight / (startX - horizonX);
             var b = height - startX * a;
 
-            var y = halfHeight * (1 + (i / 50));
+            var y = halfHeight * (1 + (i / n));
             var x = (y - b) / a - w / 2;
 
             drawRect(colors[palette].other, x, y, w, h);
