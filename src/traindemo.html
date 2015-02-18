@@ -125,7 +125,7 @@
       var height = halfWidth;
       var halfHeight = height / 2;
 
-      var trackInnerWidth = width / 9;
+      var trackInnerWidth = width / 10;
       var railWidth = trackInnerWidth / 5;
       var trackOuterWidth = trackInnerWidth + railWidth * 2;
 
@@ -242,7 +242,6 @@
 
         // Depth effect.
         c.globalAlpha = 0.9;
-        // TODO Improve the effect.
         var n = 70;
         for (var i = 0; i < n; i++) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 18 > 9) {
@@ -259,11 +258,11 @@
         c.beginPath();
 
         c.moveTo((startX - trackInnerWidth) - railWidth, height);
-        c.lineTo(horizonX - (railWidth / 2), halfHeight + 1);
+        c.lineTo(horizonX - (railWidth / 4), halfHeight + 1);
         c.lineTo(startX - trackInnerWidth, height);
 
         c.moveTo(startX + trackInnerWidth, height);
-        c.lineTo(horizonX + (railWidth / 2), halfHeight + 1);
+        c.lineTo(horizonX + (railWidth / 4), halfHeight + 1);
         c.lineTo((startX + trackInnerWidth) + railWidth, height);
 
         c.fill();
@@ -275,13 +274,12 @@
         // c.fill();
 
         // Depth effect.
-        // TODO Improve the effect.
         var n = 70;
         for (var i = 0; i < n; i++) {
-          if ((9 * Math.sin((50 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 4 > 3) {
+          if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 4 > 3) {
 
-            var w = trackOuterWidth * 2 * ((railWidth / 2 + i) / n);
-            var h = 1 + halfHeight / n;
+            var w = trackOuterWidth * 2 * ((railWidth / 6 + i) / n);
+            var h = halfHeight / n;
 
             // Calculate line equation.
             var a = halfHeight / (startX - horizonX);
