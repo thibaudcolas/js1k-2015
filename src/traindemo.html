@@ -315,7 +315,7 @@
 
       function drawPeople() {
         drawIndividual(1);
-        //drawIndividual(-1);
+        drawIndividual(-1);
       }
 
       function drawIndividual(position) {
@@ -324,8 +324,7 @@
 
         var n = 50;
         for (var i = 0; i < n; i++) {
-          if ((9 * Math.sin((55 - i) / 19) / Math.sin(i / 19) + distance * 1000) % 20 > 19) {
-          //if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 20 > 19) {
+          if ((9 * Math.sin((55 + position * i) / 19) / Math.sin(i / 19) + distance * 1000 + position * 2) % 20 > 19) {
 
             var w = peopleWidth * 2 * ((railWidth / 6 + i) / n);
             var h = w + halfHeight / n;
