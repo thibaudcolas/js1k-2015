@@ -130,9 +130,12 @@
       var trackOuterWidth = trackInnerWidth + railWidth * 2;
 
       var trainWidth = width / 20;
+      // -1 = left, 1 = right.
       var trainPosition = -1;
 
       var peopleWidth = trainWidth / 2;
+      // 0 = false, -1 = left, 1 = right.
+      var atBottom = 0;
 
       var fps = 30;
       var now = Date.now();
@@ -307,11 +310,19 @@
         drawTrack(halfWidth + halfWidth / 2, halfWidth + halfWidth / 9);
       }
 
-      function drawPeople(startX, horizonX, side) {
+      function drawPeople() {
+        drawIndividual(1);
+        //drawIndividual(-1);
+      }
+
+      function drawIndividual(position) {
+        var startX = halfWidth + position * halfWidth / 2;
+        var horizonX = halfWidth + position * halfWidth / 9;
 
         var n = 50;
         for (var i = 0; i < n; i++) {
-          if ((4 * Math.sin((80 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 18 > 17) {
+          if (!atBottom && (9 * Math.sin((55 - i) / 19) / Math.sin(i / 19) + distance * 1000) % 20 > 19) {
+          //if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 20 > 19) {
 
             var w = peopleWidth * 2 * ((railWidth / 6 + i) / n);
             var h = w + halfHeight / n;
@@ -320,10 +331,14 @@
             var a = halfHeight / (startX - horizonX);
             var b = height - startX * a;
 
-            var y = halfHeight * (1 + (i / n)) - peopleWidth / 2;
-            var x = (y - b) / a - peopleWidth / 2;
+            var y = halfHeight * (1 + (i / n)) - h / 2;
+            var x = (y - b) / a - w / 2;
 
             drawRect(colors[palette].entity, x, y, w, h);
+
+            if (y > 250) {
+              //atBottom = position;
+            }
           }
         }
       }
@@ -375,8 +390,7 @@
           drawSky(smooth);
           drawGround(smooth, delta);
           drawRails(smooth, delta);
-          drawPeople(halfWidth - halfWidth / 2, halfWidth - halfWidth / 9, 1);
-          drawPeople(halfWidth + halfWidth / 2, halfWidth + halfWidth / 9, -1);
+          drawPeople(smooth);
           drawTrain();
           drawScore();
 
@@ -389,7 +403,7 @@
 
           // TODO Switch to another trigger.
           if (score > 100) {
-            gameOver();
+            // gameOver();
           }
         }
       }
