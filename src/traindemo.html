@@ -190,8 +190,8 @@
       // circles.push([rand(w), rand(h), rand(80), rand(200)]);
       // function signatures
 
-      onclick = function() {
-        speed += 10;
+      onkeydown = onclick = function() {
+        speed += 5;
         score += 10;
         palette = palette > 3 ? 0 : palette + 1;
         trainPosition = -trainPosition;
