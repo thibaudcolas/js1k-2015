@@ -122,7 +122,7 @@
 
       var width = a.width;
       var halfWidth = width / 2;
-      var height = halfWidth;
+      var height = Math.min(halfWidth, a.height);
       var halfHeight = height / 2;
 
       var trackInnerWidth = width / 10;
@@ -148,9 +148,11 @@
       var distance = 0;
       var speed = 20;
 
+      // var start = Date.now();
       var score = 0;
       // -1 = spare lives, 1 = kill.
-      var scoreMethod = 1;
+      var scoreMethod = -1;
+      var firstEncounter = true;
 
       var palette = 0;
       var colors = [
@@ -198,7 +200,6 @@
       // function signatures
 
       onkeydown = onclick = function() {
-        speed += 1;
         palette = palette > 3 ? 0 : palette + 1;
         peopleAtBottom = 0;
         trainPosition = -trainPosition;
@@ -349,7 +350,7 @@
         c.fillStyle = colors[palette].entity;
         c.globalAlpha = 1;
         c.beginPath();
-        c.arc(halfWidth - trainPosition * (halfWidth / 2), height, trainWidth, Math.PI, Math.PI * 2);
+        c.arc(halfWidth + trainPosition * (halfWidth / 2), height, trainWidth, Math.PI, Math.PI * 2);
         c.fill();
       }
 
@@ -398,14 +399,25 @@
 
           drawRect(colors[palette].other, 0, height, width, a.height);
 
-          if (trainPosition === peopleAtBottom) {
+          // Success, score points.
+          if (trainPosition === scoreMethod * peopleAtBottom) {
+            if (firstEncounter) {
+              // firstEncounter = false;
+              // scoreMethod = -scoreMethod;
+            }
             peopleAtBottom = 0;
             score += 10;
-          }
+            speed += 1;
 
-          // TODO Switch to another trigger.
-          if (score > 100) {
-            // gameOver();
+            // If kill, draw shock.
+            if (scoreMethod === 1) {
+              drawShock();
+            }
+          }
+          // Failure, game over.
+          else if (trainPosition === -scoreMethod * peopleAtBottom) {
+            // TODO Actually stop the game.
+            gameOver();
           }
         }
       }
