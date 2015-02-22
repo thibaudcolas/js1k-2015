@@ -135,7 +135,7 @@
 
       var peopleWidth = trainWidth / 2;
       // 0 = false, -1 = left, 1 = right.
-      var atBottom = 0;
+      var peopleAtBottom = 0;
 
       var fps = 30;
       var now = Date.now();
@@ -149,6 +149,8 @@
       var speed = 20;
 
       var score = 0;
+      // -1 = spare lives, 1 = kill.
+      var scoreMethod = 1;
 
       var palette = 0;
       var colors = [
@@ -196,9 +198,9 @@
       // function signatures
 
       onkeydown = onclick = function() {
-        speed += 5;
-        score += 10;
+        speed += 1;
         palette = palette > 3 ? 0 : palette + 1;
+        peopleAtBottom = 0;
         trainPosition = -trainPosition;
         createBackground();
       };
@@ -321,7 +323,7 @@
 
         var n = 50;
         for (var i = 0; i < n; i++) {
-          if (!atBottom && (9 * Math.sin((55 - i) / 19) / Math.sin(i / 19) + distance * 1000) % 20 > 19) {
+          if ((9 * Math.sin((55 - i) / 19) / Math.sin(i / 19) + distance * 1000) % 20 > 19) {
           //if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 20 > 19) {
 
             var w = peopleWidth * 2 * ((railWidth / 6 + i) / n);
@@ -336,8 +338,8 @@
 
             drawRect(colors[palette].entity, x, y, w, h);
 
-            if (y > 250) {
-              //atBottom = position;
+            if (i === n - 1 && y > halfHeight - halfHeight / 10) {
+              peopleAtBottom = position;
             }
           }
         }
@@ -396,9 +398,9 @@
 
           drawRect(colors[palette].other, 0, height, width, a.height);
 
-          if (Math.sin(smooth) > 0.999) {
-            // TODO Uncomment.
-            //drawShock();
+          if (trainPosition === peopleAtBottom) {
+            peopleAtBottom = 0;
+            score += 10;
           }
 
           // TODO Switch to another trigger.
