@@ -132,6 +132,8 @@
       var trainWidth = width / 20;
       var trainPosition = -1;
 
+      var peopleWidth = trainWidth / 2;
+
       var fps = 30;
       var now = Date.now();
       var then = 0;
@@ -309,16 +311,19 @@
 
         var n = 50;
         for (var i = 0; i < n; i++) {
-          if ((4 * Math.sin((80 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 18 > 17 && i > 5) {
+          if ((4 * Math.sin((80 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 18 > 17) {
+
+            var w = peopleWidth * 2 * ((railWidth / 6 + i) / n);
+            var h = w + halfHeight / n;
 
             // Calculate line equation.
             var a = halfHeight / (startX - horizonX);
             var b = height - startX * a;
 
-            var y = halfHeight * (1 + (i / n)) - 20;
-            var x = (y - b) / a - 20 / 2;
+            var y = halfHeight * (1 + (i / n)) - peopleWidth / 2;
+            var x = (y - b) / a - peopleWidth / 2;
 
-            drawRect(colors[palette].entity, x, y, 20, 20);
+            drawRect(colors[palette].entity, x, y, w, h);
           }
         }
       }
@@ -374,6 +379,8 @@
           drawPeople(halfWidth + halfWidth / 2, halfWidth + halfWidth / 9, -1);
           drawTrain();
           drawScore();
+
+          drawRect(colors[palette].other, 0, height, width, a.height);
 
           if (Math.sin(smooth) > 0.999) {
             // TODO Uncomment.
