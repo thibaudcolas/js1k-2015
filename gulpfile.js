@@ -91,7 +91,6 @@ gulp.task('serve', function() {
       directory: true
     },
     files: 'src/*.html',
-    online: false,
     logFileChanges: false
   });
 

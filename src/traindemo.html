@@ -138,6 +138,7 @@
       var peopleAtBottom = 0;
 
       var fps = 30;
+      var playing = true;
       var now = Date.now();
       var then = 0;
       var smoothFactor = 1000;
@@ -199,7 +200,7 @@
       // circles.push([rand(w), rand(h), rand(80), rand(200)]);
       // function signatures
 
-      onkeydown = onclick = function() {
+      a.ontouchstart = onclick = onkeydown = function() {
         palette = palette > 3 ? 0 : palette + 1;
         peopleAtBottom = 0;
         trainPosition = -trainPosition;
@@ -367,6 +368,7 @@
       }
 
       function gameOver() {
+        playing = false;
         drawShock();
         drawShock();
         drawShock();
@@ -382,7 +384,7 @@
         now = Date.now();
         delta = now - then;
 
-        if (delta > interval) {
+        if (playing && delta > interval) {
           then = now - (delta % interval);
           smooth = then / smoothFactor;
 
@@ -418,7 +420,7 @@
             }
             else {
               // TODO Actually stop the game.
-              gameOver();
+               gameOver();
             }
           }
         }
