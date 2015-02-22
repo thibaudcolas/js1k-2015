@@ -141,7 +141,7 @@
       var delta = 0;
 
       var distance = 0;
-      var speed = 50;
+      var speed = 20;
 
       var score = 0;
 
@@ -307,6 +307,7 @@
 
       function drawTrain() {
         c.fillStyle = colors[palette].entity;
+        c.globalAlpha = 1;
         c.beginPath();
         c.arc(halfWidth - trainPosition * (halfWidth / 2), height, trainWidth, Math.PI, Math.PI * 2);
         c.fill();
