@@ -3,7 +3,7 @@
 
       var width = a.width;
       var halfWidth = width / 2;
-      var height = halfWidth;
+      var height = Math.min(halfWidth, a.height);
       var halfHeight = height / 2;
 
       var trackInnerWidth = width / 10;
@@ -11,7 +11,12 @@
       var trackOuterWidth = trackInnerWidth + railWidth * 2;
 
       var trainWidth = width / 20;
+      // -1 = left, 1 = right.
       var trainPosition = -1;
+
+      var peopleWidth = trainWidth / 2;
+      // 0 = false, -1 = left, 1 = right.
+      var peopleAtBottom = 0;
 
       var fps = 30;
       var now = Date.now();
@@ -22,9 +27,13 @@
       var delta = 0;
 
       var distance = 0;
-      var speed = 50;
+      var speed = 20;
 
+      // var start = Date.now();
       var score = 0;
+      // -1 = spare lives, 1 = kill.
+      var scoreMethod = -1;
+      var firstEncounter = true;
 
       var palette = 0;
       var colors = [
@@ -71,10 +80,9 @@
       // circles.push([rand(w), rand(h), rand(80), rand(200)]);
       // function signatures
 
-      onclick = function() {
-        speed += 10;
-        score += 10;
+      onkeydown = onclick = function() {
         palette = palette > 3 ? 0 : palette + 1;
+        peopleAtBottom = 0;
         trainPosition = -trainPosition;
         createBackground();
       };
@@ -186,10 +194,44 @@
         drawTrack(halfWidth + halfWidth / 2, halfWidth + halfWidth / 9);
       }
 
+      function drawPeople() {
+        drawIndividual(1);
+        //drawIndividual(-1);
+      }
+
+      function drawIndividual(position) {
+        var startX = halfWidth + position * halfWidth / 2;
+        var horizonX = halfWidth + position * halfWidth / 9;
+
+        var n = 50;
+        for (var i = 0; i < n; i++) {
+          if ((9 * Math.sin((55 - i) / 19) / Math.sin(i / 19) + distance * 1000) % 20 > 19) {
+          //if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 20 > 19) {
+
+            var w = peopleWidth * 2 * ((railWidth / 6 + i) / n);
+            var h = w + halfHeight / n;
+
+            // Calculate line equation.
+            var a = halfHeight / (startX - horizonX);
+            var b = height - startX * a;
+
+            var y = halfHeight * (1 + (i / n)) - h / 2;
+            var x = (y - b) / a - w / 2;
+
+            drawRect(colors[palette].entity, x, y, w, h);
+
+            if (i === n - 1 && y > halfHeight - halfHeight / 10) {
+              peopleAtBottom = position;
+            }
+          }
+        }
+      }
+
       function drawTrain() {
         c.fillStyle = colors[palette].entity;
+        c.globalAlpha = 1;
         c.beginPath();
-        c.arc(halfWidth - trainPosition * (halfWidth / 2), height, trainWidth, Math.PI, Math.PI * 2);
+        c.arc(halfWidth + trainPosition * (halfWidth / 2), height, trainWidth, Math.PI, Math.PI * 2);
         c.fill();
       }
 
@@ -232,17 +274,34 @@
           drawSky(smooth);
           drawGround(smooth, delta);
           drawRails(smooth, delta);
+          drawPeople();
           drawTrain();
           drawScore();
 
-          if (Math.sin(smooth) > 0.999) {
-            // TODO Uncomment.
-            //drawShock();
-          }
+          drawRect(colors[palette].other, 0, height, width, a.height);
 
-          // TODO Switch to another trigger.
-          if (score > 100) {
-            gameOver();
+          // Success, score points.
+          if (trainPosition === scoreMethod * peopleAtBottom) {
+            firstEncounter = false;
+            peopleAtBottom = 0;
+            score += 10;
+            speed += 1;
+
+            // If kill, draw shock.
+            if (scoreMethod === 1) {
+              drawShock();
+            }
+          }
+          // Failure, game over.
+          else if (trainPosition === -scoreMethod * peopleAtBottom) {
+            if (firstEncounter) {
+              firstEncounter = false;
+              scoreMethod = -scoreMethod;
+            }
+            else {
+              // TODO Actually stop the game.
+              gameOver();
+            }
           }
         }
       }
