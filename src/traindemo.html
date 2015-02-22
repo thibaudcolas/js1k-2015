@@ -401,10 +401,7 @@
 
           // Success, score points.
           if (trainPosition === scoreMethod * peopleAtBottom) {
-            if (firstEncounter) {
-              // firstEncounter = false;
-              // scoreMethod = -scoreMethod;
-            }
+            firstEncounter = false;
             peopleAtBottom = 0;
             score += 10;
             speed += 1;
@@ -416,8 +413,14 @@
           }
           // Failure, game over.
           else if (trainPosition === -scoreMethod * peopleAtBottom) {
-            // TODO Actually stop the game.
-            gameOver();
+            if (firstEncounter) {
+              firstEncounter = false;
+              scoreMethod = -scoreMethod;
+            }
+            else {
+              // TODO Actually stop the game.
+              gameOver();
+            }
           }
         }
       }
