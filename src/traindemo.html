@@ -305,6 +305,24 @@
         drawTrack(halfWidth + halfWidth / 2, halfWidth + halfWidth / 9);
       }
 
+      function drawPeople(startX, horizonX, side) {
+
+        var n = 50;
+        for (var i = 0; i < n; i++) {
+          if ((4 * Math.sin((80 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 18 > 17 && i > 5) {
+
+            // Calculate line equation.
+            var a = halfHeight / (startX - horizonX);
+            var b = height - startX * a;
+
+            var y = halfHeight * (1 + (i / n)) - 20;
+            var x = (y - b) / a - 20 / 2;
+
+            drawRect(colors[palette].entity, x, y, 20, 20);
+          }
+        }
+      }
+
       function drawTrain() {
         c.fillStyle = colors[palette].entity;
         c.globalAlpha = 1;
@@ -352,6 +370,8 @@
           drawSky(smooth);
           drawGround(smooth, delta);
           drawRails(smooth, delta);
+          drawPeople(halfWidth - halfWidth / 2, halfWidth - halfWidth / 9, 1);
+          drawPeople(halfWidth + halfWidth / 2, halfWidth + halfWidth / 9, -1);
           drawTrain();
           drawScore();
 
