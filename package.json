@@ -28,6 +28,7 @@
     "start": "gulp serve",
     "build": "gulp build:uglify",
     "build:closure": "gulp build:closure",
+    "filesize": "./node_modules/gulp-uglify/node_modules/uglify-js/bin/uglifyjs demo/source-full.js | ./node_modules/gulp-jscrush/node_modules/jscrush/bin/jscrush | wc -c",
     "test": "wc -c demo/*.js"
   }
 }
