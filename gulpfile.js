@@ -25,7 +25,8 @@ gulp.task('uglify', function() {
     .pipe(uglify())
     .pipe(jscrush())
     .pipe(bytediff.stop())
-    .pipe(micro({limit: 1024}))
+    // TODO Uncomment.
+    //.pipe(micro({limit: 1024}))
     .pipe(gulp.dest('demo'));
 });
 
@@ -49,7 +50,8 @@ gulp.task('closure', function() {
     .pipe(jscrush())
     .pipe(bytediff.start())
     .pipe(bytediff.stop())
-    .pipe(micro({limit: 1024}))
+    // TODO Uncomment.
+    //.pipe(micro({limit: 1024}))
     .pipe(gulp.dest('demo'));
 });
 
