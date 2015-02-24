@@ -304,7 +304,7 @@
               scoreMethod = -scoreMethod;
             }
             else {
-              // gameOver();
+              gameOver();
             }
           }
         }
