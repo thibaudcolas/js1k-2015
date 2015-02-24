@@ -19,6 +19,7 @@
       var peopleAtBottom = 0;
 
       var fps = 30;
+      var playing = true;
       var now = Date.now();
       var then = 0;
       var smoothFactor = 1000;
@@ -80,7 +81,7 @@
       // circles.push([rand(w), rand(h), rand(80), rand(200)]);
       // function signatures
 
-      onkeydown = onclick = function() {
+      a.ontouchstart = onclick = onkeydown = function() {
         palette = palette > 3 ? 0 : palette + 1;
         peopleAtBottom = 0;
         trainPosition = -trainPosition;
@@ -196,7 +197,7 @@
 
       function drawPeople() {
         drawIndividual(1);
-        //drawIndividual(-1);
+        drawIndividual(-1);
       }
 
       function drawIndividual(position) {
@@ -205,8 +206,7 @@
 
         var n = 50;
         for (var i = 0; i < n; i++) {
-          if ((9 * Math.sin((55 - i) / 19) / Math.sin(i / 19) + distance * 1000) % 20 > 19) {
-          //if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 20 > 19) {
+          if ((9 * Math.sin((55 + position * i) / 19) / Math.sin(i / 19) + distance * 1000 + position * 2) % 20 > 19) {
 
             var w = peopleWidth * 2 * ((railWidth / 6 + i) / n);
             var h = w + halfHeight / n;
@@ -218,7 +218,11 @@
             var y = halfHeight * (1 + (i / n)) - h / 2;
             var x = (y - b) / a - w / 2;
 
-            drawRect(colors[palette].entity, x, y, w, h);
+            //drawRect(colors[palette].entity, x, y, w, h);
+            c.beginPath();
+            //c.arc(x, y, w, Math.PI, Math.PI * 3);
+            c.arc(x, y, w, Math.PI / 10, Math.PI * 3);
+            c.fill();
 
             if (i === n - 1 && y > halfHeight - halfHeight / 10) {
               peopleAtBottom = position;
@@ -249,6 +253,7 @@
       }
 
       function gameOver() {
+        playing = false;
         drawShock();
         drawShock();
         drawShock();
@@ -264,13 +269,13 @@
         now = Date.now();
         delta = now - then;
 
-        if (delta > interval) {
+        if (playing && delta > interval) {
           then = now - (delta % interval);
           smooth = then / smoothFactor;
 
           distance += speed * (delta / 36e5);
 
-          drawBackground(smooth);
+          drawBackground();
           drawSky(smooth);
           drawGround(smooth, delta);
           drawRails(smooth, delta);
@@ -299,8 +304,7 @@
               scoreMethod = -scoreMethod;
             }
             else {
-              // TODO Actually stop the game.
-              gameOver();
+              // gameOver();
             }
           }
         }

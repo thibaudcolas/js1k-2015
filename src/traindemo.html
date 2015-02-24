@@ -337,7 +337,11 @@
             var y = halfHeight * (1 + (i / n)) - h / 2;
             var x = (y - b) / a - w / 2;
 
-            drawRect(colors[palette].entity, x, y, w, h);
+            //drawRect(colors[palette].entity, x, y, w, h);
+            c.beginPath();
+            //c.arc(x, y, w, Math.PI, Math.PI * 3);
+            c.arc(x, y, w, Math.PI / 10, Math.PI * 3);
+            c.fill();
 
             if (i === n - 1 && y > halfHeight - halfHeight / 10) {
               peopleAtBottom = position;
@@ -390,7 +394,7 @@
 
           distance += speed * (delta / 36e5);
 
-          drawBackground(smooth);
+          drawBackground();
           drawSky(smooth);
           drawGround(smooth, delta);
           drawRails(smooth, delta);
@@ -419,8 +423,7 @@
               scoreMethod = -scoreMethod;
             }
             else {
-              // TODO Actually stop the game.
-               gameOver();
+              gameOver();
             }
           }
         }
