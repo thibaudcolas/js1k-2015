@@ -254,7 +254,7 @@
             var a = halfHeight / (startX - horizonX);
             var b = height - startX * a;
 
-            var y = halfHeight * (1 + (i / n));
+            var y = halfHeight * (1 + (i / n)) - h / 2;
             var x = (y - b) / a - w / 2;
 
             drawRect(colorOther, x, y, w, h);
@@ -267,16 +267,6 @@
             // c.stroke();
           }
         }
-      }
-
-      function drawRails() {
-        drawTrack(1);
-        drawTrack(-1);
-      }
-
-      function drawPeople() {
-        drawIndividual(1);
-        drawIndividual(-1);
       }
 
       function drawIndividual(position) {
@@ -308,6 +298,11 @@
             }
           }
         }
+      }
+
+      function drawSide(position) {
+        drawTrack(position);
+        drawIndividual(position);
       }
 
       function drawTrain() {
@@ -350,8 +345,8 @@
           drawBackground();
           drawSky();
           drawGround();
-          drawRails();
-          drawPeople();
+          drawSide(-1);
+          drawSide(1);
           drawTrain();
           drawScore(5, 10, 50);
 
