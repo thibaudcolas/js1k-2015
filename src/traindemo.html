@@ -185,10 +185,9 @@
       }
 
       function drawSky() {
-        c.fillStyle = colorSky;
-        for (var i = 0; i < width / 10; i++) {
-          // Sky weather.
-          c.fillRect(Math.random() * width - 1, Math.random() * halfHeight - 1, 1, 1);
+        for (i = width / 10; i--;) {
+          // Sky weather (particles).
+          drawRect(colorSky, Math.random() * width, Math.random() * halfHeight, 1, 1);
 
           // Clouds.
           c.globalAlpha = 0.3;
