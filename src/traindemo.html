@@ -120,7 +120,7 @@
     <script type="demo">
       var width = a.width;
       var halfWidth = width / 2;
-      var height = Math.min(halfWidth, a.height);
+      var height = a.height;
       var halfHeight = height / 2;
 
       var trackInnerWidth = width / 10;
@@ -375,7 +375,8 @@
           drawTrain();
           drawScore();
 
-          drawRect(colors[0].other, 0, height, width, a.height);
+          // Bottom screen cleaning code.
+          // drawRect(colors[0].other, 0, height, width, a.height);
 
           // Success, score points.
           if (trainPosition === scoreMethod * peopleAtBottom) {
