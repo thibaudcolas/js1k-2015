@@ -150,13 +150,11 @@
       var scoreMethod = -1;
       var firstEncounter = true;
 
-      var color = {
-        background: '#e5ddac', // 229 221 172
-        far: '#efe9cd',
-        sky: '#fff',
-        entity: '#61001d', // 97 0 29
-        other: '#8d494d'
-      };
+      var colorBackground = '#e5ddac'; // 229 221 172
+      var colorFar = '#efe9cd';
+      var colorSky = '#fff';
+      var colorEntity = '#61001d'; // 97 0 29
+      var colorOther = '#8d494d';
 
       // for (e in c) c[e[0]+e[2]+(e[6]||'')] = c[e];
       // with(c) {}
@@ -168,21 +166,18 @@
         trainPosition = -trainPosition;
       };
 
+      bg = c.createLinearGradient(0, 0, 0, height);
+      bg.addColorStop(0, colorBackground);
+      bg.addColorStop(0.45, colorFar);
+      bg.addColorStop(0.5, colorSky);
+      bg.addColorStop(0.52, colorBackground);
+      bg.addColorStop(1, colorFar);
+
       // I'm going to draw a lot of rectangles.
       function drawRect(color, x, y, w, h) {
         c.fillStyle = color;
         c.fillRect(x, y, w, h);
       }
-
-      function createBackground() {
-        bg = c.createLinearGradient(0, 0, 0, height);
-        bg.addColorStop(0, color.background);
-        bg.addColorStop(0.45, color.far);
-        bg.addColorStop(0.5, color.sky);
-        bg.addColorStop(0.52, color.background);
-        bg.addColorStop(1, color.far);
-      }
-      createBackground();
 
       // Draws the level background.
       function drawBackground() {
@@ -190,7 +185,7 @@
       }
 
       function drawSky() {
-        c.fillStyle = color.sky;
+        c.fillStyle = colorSky;
         for (var i = 0; i < width / 10; i++) {
           // Sky weather.
           c.fillRect(Math.random() * width - 1, Math.random() * halfHeight - 1, 1, 1);
@@ -206,8 +201,8 @@
 
       function drawGround() {
         // Horizon.
-        //drawRect(color.far, 0, halfHeight, width, 2);
-        //drawRect(color.sky, 0, halfHeight, width, 1);
+        //drawRect(colorFar, 0, halfHeight, width, 2);
+        //drawRect(colorSky, 0, halfHeight, width, 1);
 
         // Depth effect.
         //c.globalAlpha = 0.9;
@@ -215,7 +210,7 @@
         for (i = n; i--;) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 18 > 9) {
             var y = halfHeight * (1 + i / n);
-            drawRect(color.far, 0, y, width, halfHeight / n);
+            drawRect(colorFar, 0, y, width, halfHeight / n);
           }
         }
       }
@@ -224,7 +219,7 @@
         var startX = halfWidth + position * halfWidth / 2;
         var horizonX = halfWidth + position * halfWidth / 9;
 
-        c.fillStyle = color.other;
+        c.fillStyle = colorOther;
 
         // Tracks
         c.beginPath();
@@ -262,7 +257,7 @@
             var y = halfHeight * (1 + (i / n));
             var x = (y - b) / a - w / 2;
 
-            drawRect(color.other, x, y, w, h);
+            drawRect(colorOther, x, y, w, h);
 
             // Debug rail
             // c.beginPath();
@@ -302,13 +297,13 @@
             var y = halfHeight * (1 + (i / n)) - h / 2;
             var x = (y - b) / a - w / 2;
 
-            //drawRect(color.entity, x, y, w, h);
+            //drawRect(colorEntity, x, y, w, h);
             c.beginPath();
             //c.arc(x, y, w, Math.PI, Math.PI * 3);
             c.arc(x, y, w, Math.PI / 10, Math.PI * 3);
             c.fill();
 
-            if (i === n - 1 && y > halfHeight - halfHeight / 10) {
+            if (i == n - 1 && y > halfHeight - halfHeight / 10) {
               peopleAtBottom = position;
             }
           }
@@ -316,7 +311,7 @@
       }
 
       function drawTrain() {
-        c.fillStyle = color.entity;
+        c.fillStyle = colorEntity;
         c.globalAlpha = 1;
         c.beginPath();
         c.arc(halfWidth + trainPosition * (halfWidth / 2), height, trainWidth, Math.PI, Math.PI * 2);
@@ -326,20 +321,20 @@
       function drawScore(size, x, y) {
         c.globalAlpha = 1;
         c.font = size + 'vw mono';
-        c.fillStyle = color.sky;
+        c.fillStyle = colorSky;
         c.fillText(score, x, y);
       }
 
       function drawShock() {
         c.globalAlpha = 0.8;
-        c.fillStyle = color.entity;
+        c.fillStyle = colorEntity;
         c.fillRect(0, 0, width, height);
       }
 
       function gameOver() {
         playing = false;
         drawShock();
-        drawScore(20, halfWidth * (8 / 10), halfHeight + 40);
+        drawScore(20, halfWidth * (8 / 10), halfHeight);
       }
 
       setInterval(function() {
@@ -361,22 +356,22 @@
           drawScore(5, 10, 50);
 
           // Bottom screen cleaning code.
-          // drawRect(color.other, 0, height, width, a.height);
+          // drawRect(colorOther, 0, height, width, a.height);
 
           // Success, score points.
-          if (trainPosition === scoreMethod * peopleAtBottom) {
+          if (trainPosition == scoreMethod * peopleAtBottom) {
             firstEncounter = false;
             peopleAtBottom = 0;
             score += 10;
             speed += 1;
 
             // If kill, draw shock.
-            if (scoreMethod === 1) {
+            if (scoreMethod > 0) {
               drawShock();
             }
           }
           // Failure, game over.
-          else if (trainPosition === -scoreMethod * peopleAtBottom) {
+          if (trainPosition == -scoreMethod * peopleAtBottom) {
             if (firstEncounter) {
               firstEncounter = false;
               scoreMethod = -scoreMethod;
