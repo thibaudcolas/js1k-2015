@@ -199,7 +199,7 @@
         drawRect(bg, 0, 0, width, height);
       }
 
-      function drawSky(t) {
+      function drawSky() {
         c.fillStyle = colors[0].sky;
         for (var i = 0; i < width / 10; i++) {
           // Sky weather.
@@ -208,13 +208,13 @@
           // Clouds.
           c.globalAlpha = 0.3;
           c.beginPath();
-          c.arc(i * 12,  Math.cos(i + t) * 5 - 5, 30 + Math.sin((i % 3)) * 5, 0, Math.PI);
+          c.arc(i * 12,  Math.cos(i + smooth) * 5 - 5, 30 + Math.sin((i % 3)) * 5, 0, Math.PI);
           c.fill();
           c.globalAlpha = 1;
         }
       }
 
-      function drawGround(t, dt) {
+      function drawGround() {
         // Horizon.
         drawRect(colors[0].far, 0, halfHeight, width, 2);
         drawRect(colors[0].sky, 0, halfHeight, width, 1);
@@ -230,7 +230,10 @@
         }
       }
 
-      function drawTrack(startX, horizonX) {
+      function drawTrack(position) {
+        var startX = halfWidth + position * halfWidth / 2;
+        var horizonX = halfWidth + position * halfWidth / 9;
+
         c.fillStyle = colors[0].other;
 
         // Tracks
@@ -279,9 +282,9 @@
         }
       }
 
-      function drawRails(t, dt) {
-        drawTrack(halfWidth - halfWidth / 2, halfWidth - halfWidth / 9);
-        drawTrack(halfWidth + halfWidth / 2, halfWidth + halfWidth / 9);
+      function drawRails() {
+        drawTrack(1);
+        drawTrack(-1);
       }
 
       function drawPeople() {
@@ -365,9 +368,9 @@
           distance += speed * (delta / 36e5);
 
           drawBackground();
-          drawSky(smooth);
-          drawGround(smooth, delta);
-          drawRails(smooth, delta);
+          drawSky();
+          drawGround();
+          drawRails();
           drawPeople();
           drawTrain();
           drawScore();
