@@ -151,12 +151,12 @@
       var firstEncounter = true;
 
       var color = {
-          background: '#e5ddac', // 229 221 172
-          far: '#efe9cd',
-          sky: '#fff',
-          entity: '#61001d', // 97 0 29
-          other: '#8d494d'
-        };
+        background: '#e5ddac', // 229 221 172
+        far: '#efe9cd',
+        sky: '#fff',
+        entity: '#61001d', // 97 0 29
+        other: '#8d494d'
+      };
 
       // for (e in c) c[e[0]+e[2]+(e[6]||'')] = c[e];
       // with(c) {}
@@ -212,7 +212,7 @@
         // Depth effect.
         //c.globalAlpha = 0.9;
         var n = 70;
-        for (var i = 0; i < n; i++) {
+        for (i = n; i--;) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 18 > 9) {
             var y = halfHeight * (1 + i / n);
             drawRect(color.far, 0, y, width, halfHeight / n);
@@ -249,7 +249,7 @@
 
         // Depth effect.
         var n = 70;
-        for (var i = 0; i < n; i++) {
+        for (i = n; i--;) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 4 > 3) {
 
             var w = (trackInnerWidth + railWidth * 2) * 2 * ((railWidth / 6 + i) / n);
@@ -289,7 +289,7 @@
         var horizonX = halfWidth + position * halfWidth / 9;
 
         var n = 50;
-        for (var i = 0; i < n; i++) {
+        for (i = n; i--;) {
           if ((9 * Math.sin((55 + position * i) / 19) / Math.sin(i / 19) + distance * 1000 + position * 2) % 20 > 19) {
 
             var w = peopleWidth * 2 * ((railWidth / 6 + i) / n);
