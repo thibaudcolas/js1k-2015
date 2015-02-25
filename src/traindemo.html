@@ -125,7 +125,6 @@
 
       var trackInnerWidth = width / 10;
       var railWidth = trackInnerWidth / 5;
-      var trackOuterWidth = trackInnerWidth + railWidth * 2;
 
       var trainWidth = width / 20;
       // -1 = left, 1 = right.
@@ -251,7 +250,7 @@
         for (var i = 0; i < n; i++) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 4 > 3) {
 
-            var w = trackOuterWidth * 2 * ((railWidth / 6 + i) / n);
+            var w = (trackInnerWidth + railWidth * 2) * 2 * ((railWidth / 6 + i) / n);
             var h = halfHeight / n;
 
             // Calculate line equation.
@@ -346,9 +345,7 @@
         c.fillText(score, halfWidth * (8 / 10), halfHeight + 40);
       }
 
-      function loop() {
-        requestAnimationFrame(loop);
-
+      setInterval(function loop() {
         now = +new Date;
         delta = now - then;
 
@@ -392,9 +389,7 @@
             }
           }
         }
-      }
-
-      loop();
+      }, 1);
     </script>
     <!-- endbuild -->
     <script>
