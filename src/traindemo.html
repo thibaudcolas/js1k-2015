@@ -215,13 +215,39 @@
         }
       }
 
-      function drawTrack(position) {
+      function drawSide(position) {
         var startX = halfWidth + position * halfWidth / 2;
         var horizonX = halfWidth + position * halfWidth / 9;
+        // Calculate line equation.
+        var a = halfHeight / (startX - horizonX);
+        var b = height - startX * a;
 
         c.fillStyle = colorOther;
 
-        // Tracks
+        // Draw persons on the railway.
+        var n = 50;
+        for (i = n; i--;) {
+          if ((9 * Math.sin((55 + position * i) / 19) / Math.sin(i / 19) + distance * 1000 + position * 2) % 20 > 19) {
+
+            var w = peopleWidth * 2 * ((railWidth / 6 + i) / n);
+            var h = w + halfHeight / n;
+
+            var y = halfHeight * (1 + (i / n)) - h / 2;
+            var x = (y - b) / a - w / 2;
+
+            //drawRect(colorEntity, x, y, w, h);
+            c.beginPath();
+            //c.arc(x, y, w, Math.PI, Math.PI * 3);
+            c.arc(x, y, w, Math.PI / 10, Math.PI * 3);
+            c.fill();
+
+            if (i == n - 1 && y > halfHeight - halfHeight / 10) {
+              peopleAtBottom = position;
+            }
+          }
+        }
+
+        // Draw tracks.
         c.beginPath();
 
         position = -1;
@@ -242,17 +268,13 @@
         // c.lineTo(startX + 2, height);
         // c.fill();
 
-        // Depth effect.
+        // Moving planks: Depth effect.
         var n = 70;
         for (i = n; i--;) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 4 > 3) {
 
             var w = (trackInnerWidth + railWidth * 2) * 2 * ((railWidth / 6 + i) / n);
             var h = halfHeight / n;
-
-            // Calculate line equation.
-            var a = halfHeight / (startX - horizonX);
-            var b = height - startX * a;
 
             var y = halfHeight * (1 + (i / n)) - h / 2;
             var x = (y - b) / a - w / 2;
@@ -267,42 +289,6 @@
             // c.stroke();
           }
         }
-      }
-
-      function drawIndividual(position) {
-        var startX = halfWidth + position * halfWidth / 2;
-        var horizonX = halfWidth + position * halfWidth / 9;
-
-        var n = 50;
-        for (i = n; i--;) {
-          if ((9 * Math.sin((55 + position * i) / 19) / Math.sin(i / 19) + distance * 1000 + position * 2) % 20 > 19) {
-
-            var w = peopleWidth * 2 * ((railWidth / 6 + i) / n);
-            var h = w + halfHeight / n;
-
-            // Calculate line equation.
-            var a = halfHeight / (startX - horizonX);
-            var b = height - startX * a;
-
-            var y = halfHeight * (1 + (i / n)) - h / 2;
-            var x = (y - b) / a - w / 2;
-
-            //drawRect(colorEntity, x, y, w, h);
-            c.beginPath();
-            //c.arc(x, y, w, Math.PI, Math.PI * 3);
-            c.arc(x, y, w, Math.PI / 10, Math.PI * 3);
-            c.fill();
-
-            if (i == n - 1 && y > halfHeight - halfHeight / 10) {
-              peopleAtBottom = position;
-            }
-          }
-        }
-      }
-
-      function drawSide(position) {
-        drawTrack(position);
-        drawIndividual(position);
       }
 
       function drawTrain() {
