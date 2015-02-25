@@ -151,22 +151,13 @@
       var scoreMethod = -1;
       var firstEncounter = true;
 
-      var colors = [
-        {
+      var color = {
           background: '#e5ddac', // 229 221 172
           far: '#efe9cd',
-          sky: '#ffffff',
+          sky: '#fff',
           entity: '#61001d', // 97 0 29
           other: '#8d494d'
-        },
-        {
-          background: '#CF7081',
-          far: '#EFB4BF',
-          sky: '#F7DEE7',
-          entity: '#58182E',
-          other: '#93272C'
-        }
-      ];
+        };
 
       // for (e in c) c[e[0]+e[2]+(e[6]||'')] = c[e];
       // with(c) {}
@@ -186,11 +177,11 @@
 
       function createBackground() {
         bg = c.createLinearGradient(0, 0, 0, height);
-        bg.addColorStop(0, colors[0].background);
-        bg.addColorStop(0.45, colors[0].far);
-        bg.addColorStop(0.5, colors[0].sky);
-        bg.addColorStop(0.52, colors[0].background);
-        bg.addColorStop(1, colors[0].far);
+        bg.addColorStop(0, color.background);
+        bg.addColorStop(0.45, color.far);
+        bg.addColorStop(0.5, color.sky);
+        bg.addColorStop(0.52, color.background);
+        bg.addColorStop(1, color.far);
       }
       createBackground();
 
@@ -200,7 +191,7 @@
       }
 
       function drawSky() {
-        c.fillStyle = colors[0].sky;
+        c.fillStyle = color.sky;
         for (var i = 0; i < width / 10; i++) {
           // Sky weather.
           c.fillRect(Math.random() * width - 1, Math.random() * halfHeight - 1, 1, 1);
@@ -216,8 +207,8 @@
 
       function drawGround() {
         // Horizon.
-        //drawRect(colors[0].far, 0, halfHeight, width, 2);
-        //drawRect(colors[0].sky, 0, halfHeight, width, 1);
+        //drawRect(color.far, 0, halfHeight, width, 2);
+        //drawRect(color.sky, 0, halfHeight, width, 1);
 
         // Depth effect.
         //c.globalAlpha = 0.9;
@@ -225,7 +216,7 @@
         for (var i = 0; i < n; i++) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 18 > 9) {
             var y = halfHeight * (1 + i / n);
-            drawRect(colors[0].far, 0, y, width, halfHeight / n);
+            drawRect(color.far, 0, y, width, halfHeight / n);
           }
         }
       }
@@ -234,7 +225,7 @@
         var startX = halfWidth + position * halfWidth / 2;
         var horizonX = halfWidth + position * halfWidth / 9;
 
-        c.fillStyle = colors[0].other;
+        c.fillStyle = color.other;
 
         // Tracks
         c.beginPath();
@@ -270,7 +261,7 @@
             var y = halfHeight * (1 + (i / n));
             var x = (y - b) / a - w / 2;
 
-            drawRect(colors[0].other, x, y, w, h);
+            drawRect(color.other, x, y, w, h);
 
             // Debug rail
             // c.beginPath();
@@ -310,7 +301,7 @@
             var y = halfHeight * (1 + (i / n)) - h / 2;
             var x = (y - b) / a - w / 2;
 
-            //drawRect(colors[0].entity, x, y, w, h);
+            //drawRect(color.entity, x, y, w, h);
             c.beginPath();
             //c.arc(x, y, w, Math.PI, Math.PI * 3);
             c.arc(x, y, w, Math.PI / 10, Math.PI * 3);
@@ -324,7 +315,7 @@
       }
 
       function drawTrain() {
-        c.fillStyle = colors[0].entity;
+        c.fillStyle = color.entity;
         c.globalAlpha = 1;
         c.beginPath();
         c.arc(halfWidth + trainPosition * (halfWidth / 2), height, trainWidth, Math.PI, Math.PI * 2);
@@ -334,13 +325,13 @@
       function drawScore() {
         c.globalAlpha = 1;
         c.font = 'bold 5vw mono';
-        c.fillStyle = colors[0].sky;
+        c.fillStyle = color.sky;
         c.fillText(score, 10, 50);
       }
 
       function drawShock() {
         c.globalAlpha = 0.8;
-        c.fillStyle = colors[0].entity;
+        c.fillStyle = color.entity;
         c.fillRect(0, 0, width, height);
       }
 
@@ -351,7 +342,7 @@
         drawShock();
         c.globalAlpha = 1;
         c.font = 'bold 20vw mono';
-        c.fillStyle = colors[0].sky;
+        c.fillStyle = color.sky;
         c.fillText(score, halfWidth * (8 / 10), halfHeight + 40);
       }
 
@@ -376,7 +367,7 @@
           drawScore();
 
           // Bottom screen cleaning code.
-          // drawRect(colors[0].other, 0, height, width, a.height);
+          // drawRect(color.other, 0, height, width, a.height);
 
           // Success, score points.
           if (trainPosition === scoreMethod * peopleAtBottom) {
