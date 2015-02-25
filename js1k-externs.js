@@ -7,3 +7,4 @@ var innerHeight;
 var onclick;
 var ontouchstart;
 var onkeydown;
+var bg;
