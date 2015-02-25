@@ -189,7 +189,7 @@
         bg.addColorStop(0, colors[0].background);
         bg.addColorStop(0.45, colors[0].far);
         bg.addColorStop(0.5, colors[0].sky);
-        bg.addColorStop(0.51, colors[0].background);
+        bg.addColorStop(0.52, colors[0].background);
         bg.addColorStop(1, colors[0].far);
       }
       createBackground();
@@ -216,11 +216,11 @@
 
       function drawGround() {
         // Horizon.
-        drawRect(colors[0].far, 0, halfHeight, width, 2);
-        drawRect(colors[0].sky, 0, halfHeight, width, 1);
+        //drawRect(colors[0].far, 0, halfHeight, width, 2);
+        //drawRect(colors[0].sky, 0, halfHeight, width, 1);
 
         // Depth effect.
-        c.globalAlpha = 0.9;
+        //c.globalAlpha = 0.9;
         var n = 70;
         for (var i = 0; i < n; i++) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 18 > 9) {
