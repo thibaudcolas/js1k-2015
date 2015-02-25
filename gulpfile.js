@@ -43,7 +43,6 @@ gulp.task('closure', function() {
       fileName: 'source-crushed.js',
       compilerFlags: {
         compilation_level: 'ADVANCED_OPTIMIZATIONS',
-        warning_level: 'VERBOSE',
         externs: 'js1k-externs.js'
       }
     }))

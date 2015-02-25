@@ -169,7 +169,7 @@
       };
 
       // I'm going to draw a lot of rectangles.
-      function drawRect(color, x, y, w, h){
+      function drawRect(color, x, y, w, h) {
         c.fillStyle = color;
         c.fillRect(x, y, w, h);
       }
@@ -323,11 +323,11 @@
         c.fill();
       }
 
-      function drawScore() {
+      function drawScore(size, x, y) {
         c.globalAlpha = 1;
-        c.font = 'bold 5vw mono';
+        c.font = size + 'vw mono';
         c.fillStyle = color.sky;
-        c.fillText(score, 10, 50);
+        c.fillText(score, x, y);
       }
 
       function drawShock() {
@@ -339,12 +339,7 @@
       function gameOver() {
         playing = false;
         drawShock();
-        drawShock();
-        drawShock();
-        c.globalAlpha = 1;
-        c.font = 'bold 20vw mono';
-        c.fillStyle = color.sky;
-        c.fillText(score, halfWidth * (8 / 10), halfHeight + 40);
+        drawScore(20, halfWidth * (8 / 10), halfHeight + 40);
       }
 
       setInterval(function() {
@@ -363,7 +358,7 @@
           drawRails();
           drawPeople();
           drawTrain();
-          drawScore();
+          drawScore(5, 10, 50);
 
           // Bottom screen cleaning code.
           // drawRect(color.other, 0, height, width, a.height);
@@ -387,7 +382,7 @@
               scoreMethod = -scoreMethod;
             }
             else {
-              //gameOver();
+              gameOver();
             }
           }
         }
