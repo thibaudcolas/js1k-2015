@@ -229,13 +229,15 @@
         // Tracks
         c.beginPath();
 
-        c.moveTo((startX - trackInnerWidth) - railWidth, height);
-        c.lineTo(horizonX - (railWidth / 4), halfHeight + 1);
-        c.lineTo(startX - trackInnerWidth, height);
+        position = -1;
+        c.moveTo(startX + position * trackInnerWidth + position * railWidth, height);
+        c.lineTo(horizonX + position * (railWidth / 4), halfHeight + 1);
+        c.lineTo(startX + position * trackInnerWidth, height);
 
-        c.moveTo(startX + trackInnerWidth, height);
-        c.lineTo(horizonX + (railWidth / 4), halfHeight + 1);
-        c.lineTo((startX + trackInnerWidth) + railWidth, height);
+        position = 1;
+        c.moveTo(startX + position * trackInnerWidth + position * railWidth, height);
+        c.lineTo(horizonX + position * (railWidth / 4), halfHeight + 1);
+        c.lineTo(startX + position * trackInnerWidth, height);
 
         c.fill();
 
@@ -345,7 +347,7 @@
         c.fillText(score, halfWidth * (8 / 10), halfHeight + 40);
       }
 
-      setInterval(function loop() {
+      setInterval(function() {
         now = +new Date;
         delta = now - then;
 
