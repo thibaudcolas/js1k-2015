@@ -185,7 +185,8 @@
       }
 
       function drawSky() {
-        for (i = width / 10; i--;) {
+        //for (i = width / 10; i--;) {
+        for (var i = 0; i < width / 10; i++) {
           // Sky weather (particles).
           drawRect(colorSky, Math.random() * width, Math.random() * halfHeight, 1, 1);
 
