@@ -1,12 +1,11 @@
 
       var width = a.width;
       var halfWidth = width / 2;
-      var height = Math.min(halfWidth, a.height);
+      var height = a.height;
       var halfHeight = height / 2;
 
       var trackInnerWidth = width / 10;
       var railWidth = trackInnerWidth / 5;
-      var trackOuterWidth = trackInnerWidth + railWidth * 2;
 
       var trainWidth = width / 20;
       // -1 = left, 1 = right.
@@ -32,22 +31,11 @@
       var scoreMethod = -1;
       var firstEncounter = true;
 
-      var colors = [
-        {
-          background: '#e5ddac', // 229 221 172
-          far: '#efe9cd',
-          sky: '#ffffff',
-          entity: '#61001d', // 97 0 29
-          other: '#8d494d'
-        },
-        {
-          background: '#CF7081',
-          far: '#EFB4BF',
-          sky: '#F7DEE7',
-          entity: '#58182E',
-          other: '#93272C'
-        }
-      ];
+      var colorBackground = '#e5ddac'; // 229 221 172
+      var colorFar = '#efe9cd';
+      var colorSky = '#fff';
+      var colorEntity = '#61001d'; // 97 0 29
+      var colorOther = '#8d494d';
 
       // for (e in c) c[e[0]+e[2]+(e[6]||'')] = c[e];
       // with(c) {}
@@ -59,71 +47,98 @@
         trainPosition = -trainPosition;
       };
 
+      bg = c.createLinearGradient(0, 0, 0, height);
+      bg.addColorStop(0, colorBackground);
+      bg.addColorStop(0.45, colorFar);
+      bg.addColorStop(0.5, colorSky);
+      bg.addColorStop(0.52, colorBackground);
+      bg.addColorStop(1, colorFar);
+
       // I'm going to draw a lot of rectangles.
-      function drawRect(color, x, y, w, h){
+      function drawRect(color, x, y, w, h) {
         c.fillStyle = color;
         c.fillRect(x, y, w, h);
       }
-
-      function createBackground() {
-        bg = c.createLinearGradient(0, 0, 0, height);
-        bg.addColorStop(0, colors[0].background);
-        bg.addColorStop(0.45, colors[0].far);
-        bg.addColorStop(0.5, colors[0].sky);
-        bg.addColorStop(0.51, colors[0].background);
-        bg.addColorStop(1, colors[0].far);
-      }
-      createBackground();
 
       // Draws the level background.
       function drawBackground() {
         drawRect(bg, 0, 0, width, height);
       }
 
-      function drawSky(t) {
-        c.fillStyle = colors[0].sky;
-        for (var i = 0; i < width / 10; i++) {
-          // Sky weather.
-          c.fillRect(Math.random() * width - 1, Math.random() * halfHeight - 1, 1, 1);
+      function drawSky() {
+        for (i = width / 10; i--;) {
+          // Sky weather (particles).
+          drawRect(colorSky, Math.random() * width, Math.random() * halfHeight, 1, 1);
 
           // Clouds.
           c.globalAlpha = 0.3;
           c.beginPath();
-          c.arc(i * 12,  Math.cos(i + t) * 5 - 5, 30 + Math.sin((i % 3)) * 5, 0, Math.PI);
+          c.arc(i * 12,  Math.cos(i + smooth) * 5 - 5, 30 + Math.sin((i % 3)) * 5, 0, Math.PI);
           c.fill();
           c.globalAlpha = 1;
         }
       }
 
-      function drawGround(t, dt) {
+      function drawGround() {
         // Horizon.
-        drawRect(colors[0].far, 0, halfHeight, width, 2);
-        drawRect(colors[0].sky, 0, halfHeight, width, 1);
+        //drawRect(colorFar, 0, halfHeight, width, 2);
+        //drawRect(colorSky, 0, halfHeight, width, 1);
 
         // Depth effect.
-        c.globalAlpha = 0.9;
+        //c.globalAlpha = 0.9;
         var n = 70;
-        for (var i = 0; i < n; i++) {
+        for (i = n; i--;) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 18 > 9) {
             var y = halfHeight * (1 + i / n);
-            drawRect(colors[0].far, 0, y, width, halfHeight / n);
+            drawRect(colorFar, 0, y, width, halfHeight / n);
           }
         }
       }
 
-      function drawTrack(startX, horizonX) {
-        c.fillStyle = colors[0].other;
+      function drawSide(position) {
+        var startX = halfWidth + position * halfWidth / 2;
+        var horizonX = halfWidth + position * halfWidth / 9;
+        // Calculate line equation.
+        var a = halfHeight / (startX - horizonX);
+        var b = height - startX * a;
 
-        // Tracks
+        c.fillStyle = colorOther;
+
+        // Draw persons on the railway.
+        var n = 50;
+        for (i = n; i--;) {
+          if ((9 * Math.sin((55 + position * i) / 19) / Math.sin(i / 19) + distance * 1000 + position * 2) % 20 > 19) {
+
+            var w = peopleWidth * 2 * ((railWidth / 6 + i) / n);
+            var h = w + halfHeight / n;
+
+            var y = halfHeight * (1 + (i / n)) - h / 2;
+            var x = (y - b) / a - w / 2;
+
+            //drawRect(colorEntity, x, y, w, h);
+            c.beginPath();
+            //c.arc(x, y, w, Math.PI, Math.PI * 3);
+            c.arc(x, y, w, Math.PI / 10, Math.PI * 3);
+            c.fill();
+
+            if (i == n - 1 && y > halfHeight - halfHeight / 10) {
+              peopleAtBottom = position;
+            }
+          }
+        }
+
+        // Draw tracks.
         c.beginPath();
 
-        c.moveTo((startX - trackInnerWidth) - railWidth, height);
-        c.lineTo(horizonX - (railWidth / 4), halfHeight + 1);
-        c.lineTo(startX - trackInnerWidth, height);
+        position = -1;
+        c.moveTo(startX + position * trackInnerWidth + position * railWidth, height);
+        c.lineTo(horizonX + position * (railWidth / 4), halfHeight + 1);
+        c.lineTo(startX + position * trackInnerWidth, height);
 
-        c.moveTo(startX + trackInnerWidth, height);
-        c.lineTo(horizonX + (railWidth / 4), halfHeight + 1);
-        c.lineTo((startX + trackInnerWidth) + railWidth, height);
+        position = 1;
+        c.moveTo(startX + position * trackInnerWidth + position * railWidth, height);
+        c.lineTo(horizonX + position * (railWidth / 4), halfHeight + 1);
+        c.lineTo(startX + position * trackInnerWidth, height);
 
         c.fill();
 
@@ -133,22 +148,18 @@
         // c.lineTo(startX + 2, height);
         // c.fill();
 
-        // Depth effect.
+        // Moving planks: Depth effect.
         var n = 70;
-        for (var i = 0; i < n; i++) {
+        for (i = n; i--;) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 4 > 3) {
 
-            var w = trackOuterWidth * 2 * ((railWidth / 6 + i) / n);
+            var w = (trackInnerWidth + railWidth * 2) * 2 * ((railWidth / 6 + i) / n);
             var h = halfHeight / n;
 
-            // Calculate line equation.
-            var a = halfHeight / (startX - horizonX);
-            var b = height - startX * a;
-
-            var y = halfHeight * (1 + (i / n));
+            var y = halfHeight * (1 + (i / n)) - h / 2;
             var x = (y - b) / a - w / 2;
 
-            drawRect(colors[0].other, x, y, w, h);
+            drawRect(colorOther, x, y, w, h);
 
             // Debug rail
             // c.beginPath();
@@ -160,82 +171,34 @@
         }
       }
 
-      function drawRails(t, dt) {
-        drawTrack(halfWidth - halfWidth / 2, halfWidth - halfWidth / 9);
-        drawTrack(halfWidth + halfWidth / 2, halfWidth + halfWidth / 9);
-      }
-
-      function drawPeople() {
-        drawIndividual(1);
-        drawIndividual(-1);
-      }
-
-      function drawIndividual(position) {
-        var startX = halfWidth + position * halfWidth / 2;
-        var horizonX = halfWidth + position * halfWidth / 9;
-
-        var n = 50;
-        for (var i = 0; i < n; i++) {
-          if ((9 * Math.sin((55 + position * i) / 19) / Math.sin(i / 19) + distance * 1000 + position * 2) % 20 > 19) {
-
-            var w = peopleWidth * 2 * ((railWidth / 6 + i) / n);
-            var h = w + halfHeight / n;
-
-            // Calculate line equation.
-            var a = halfHeight / (startX - horizonX);
-            var b = height - startX * a;
-
-            var y = halfHeight * (1 + (i / n)) - h / 2;
-            var x = (y - b) / a - w / 2;
-
-            //drawRect(colors[0].entity, x, y, w, h);
-            c.beginPath();
-            //c.arc(x, y, w, Math.PI, Math.PI * 3);
-            c.arc(x, y, w, Math.PI / 10, Math.PI * 3);
-            c.fill();
-
-            if (i === n - 1 && y > halfHeight - halfHeight / 10) {
-              peopleAtBottom = position;
-            }
-          }
-        }
-      }
-
       function drawTrain() {
-        c.fillStyle = colors[0].entity;
+        c.fillStyle = colorEntity;
         c.globalAlpha = 1;
         c.beginPath();
         c.arc(halfWidth + trainPosition * (halfWidth / 2), height, trainWidth, Math.PI, Math.PI * 2);
         c.fill();
       }
 
-      function drawScore() {
+      function drawScore(size, x, y) {
         c.globalAlpha = 1;
-        c.font = 'bold 5vw mono';
-        c.fillStyle = colors[0].sky;
-        c.fillText(score, 10, 50);
+        c.font = size + 'vw mono';
+        c.fillStyle = colorSky;
+        c.fillText(score, x, y);
       }
 
       function drawShock() {
         c.globalAlpha = 0.8;
-        c.fillStyle = colors[0].entity;
+        c.fillStyle = colorEntity;
         c.fillRect(0, 0, width, height);
       }
 
       function gameOver() {
         playing = false;
         drawShock();
-        drawShock();
-        drawShock();
-        c.globalAlpha = 1;
-        c.font = 'bold 20vw mono';
-        c.fillStyle = colors[0].sky;
-        c.fillText(score, halfWidth * (8 / 10), halfHeight + 40);
+        drawScore(20, halfWidth * (8 / 10), halfHeight);
       }
 
-      function loop() {
-        requestAnimationFrame(loop);
-
+      setInterval(function() {
         now = +new Date;
         delta = now - then;
 
@@ -246,39 +209,38 @@
           distance += speed * (delta / 36e5);
 
           drawBackground();
-          drawSky(smooth);
-          drawGround(smooth, delta);
-          drawRails(smooth, delta);
-          drawPeople();
+          drawSky();
+          drawGround();
+          drawSide(-1);
+          drawSide(1);
           drawTrain();
-          drawScore();
+          drawScore(5, 10, 50);
 
-          drawRect(colors[0].other, 0, height, width, a.height);
+          // Bottom screen cleaning code.
+          // drawRect(colorOther, 0, height, width, a.height);
 
           // Success, score points.
-          if (trainPosition === scoreMethod * peopleAtBottom) {
+          if (trainPosition == scoreMethod * peopleAtBottom) {
             firstEncounter = false;
             peopleAtBottom = 0;
             score += 10;
             speed += 1;
 
             // If kill, draw shock.
-            if (scoreMethod === 1) {
+            if (scoreMethod > 0) {
               drawShock();
             }
           }
           // Failure, game over.
-          else if (trainPosition === -scoreMethod * peopleAtBottom) {
+          if (trainPosition == -scoreMethod * peopleAtBottom) {
             if (firstEncounter) {
               firstEncounter = false;
               scoreMethod = -scoreMethod;
             }
             else {
-              //gameOver();
+              gameOver();
             }
           }
         }
-      }
-
-      loop();
+      }, 1);
     
