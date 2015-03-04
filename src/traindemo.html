@@ -134,7 +134,6 @@
       // 0 = false, -1 = left, 1 = right.
       var peopleAtBottom = 0;
 
-      var playing = true;
       var now;
       var then = 0;
       var smoothFactor = 1000;
@@ -292,8 +291,8 @@
       }
 
       function drawTrain() {
-        c.fillStyle = colorEntity;
         c.globalAlpha = 1;
+        c.fillStyle = colorEntity;
         c.beginPath();
         c.arc(halfWidth + trainPosition * (halfWidth / 2), height, trainWidth, Math.PI, Math.PI * 2);
         c.fill();
@@ -313,7 +312,8 @@
       }
 
       function gameOver() {
-        playing = false;
+        // Makes the game stop.
+        interval = 1e9;
         drawShock();
         drawScore(20, halfWidth * (8 / 10), halfHeight);
       }
@@ -322,7 +322,7 @@
         now = +new Date;
         delta = now - then;
 
-        if (playing && delta > interval) {
+        if (delta > interval) {
           then = now - (delta % interval);
           smooth = then / smoothFactor;
 
