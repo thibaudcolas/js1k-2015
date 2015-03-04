@@ -15,7 +15,6 @@
       // 0 = false, -1 = left, 1 = right.
       var peopleAtBottom = 0;
 
-      var playing = true;
       var now;
       var then = 0;
       var smoothFactor = 1000;
@@ -66,14 +65,15 @@
       }
 
       function drawSky() {
-        for (i = width / 10; i--;) {
+        //for (i = width / 10; i--;) {
+        for (var i = 0; i < width / 10; i++) {
           // Sky weather (particles).
           drawRect(colorSky, Math.random() * width, Math.random() * halfHeight, 1, 1);
 
           // Clouds.
           c.globalAlpha = 0.3;
           c.beginPath();
-          c.arc(i * 12,  Math.cos(i + smooth) * 5 - 5, 30 + Math.sin((i % 3)) * 5, 0, Math.PI);
+          c.arc(i * 12,  Math.cos(i + smooth) * 5 - 5, 30 + Math.sin((i % 3)) * 5, 0, 9);
           c.fill();
           c.globalAlpha = 1;
         }
@@ -117,8 +117,8 @@
 
             //drawRect(colorEntity, x, y, w, h);
             c.beginPath();
-            //c.arc(x, y, w, Math.PI, Math.PI * 3);
-            c.arc(x, y, w, Math.PI / 10, Math.PI * 3);
+            //c.arc(x, y, w, 0, 9);
+            c.arc(x, y, w, 0, 9);
             c.fill();
 
             if (i == n - 1 && y > halfHeight - halfHeight / 10) {
@@ -172,10 +172,10 @@
       }
 
       function drawTrain() {
-        c.fillStyle = colorEntity;
         c.globalAlpha = 1;
+        c.fillStyle = colorEntity;
         c.beginPath();
-        c.arc(halfWidth + trainPosition * (halfWidth / 2), height, trainWidth, Math.PI, Math.PI * 2);
+        c.arc(halfWidth + trainPosition * (halfWidth / 2), height, trainWidth, 0, 9);
         c.fill();
       }
 
@@ -193,7 +193,8 @@
       }
 
       function gameOver() {
-        playing = false;
+        // Makes the game stop.
+        interval = 1e9;
         drawShock();
         drawScore(20, halfWidth * (8 / 10), halfHeight);
       }
@@ -202,7 +203,7 @@
         now = +new Date;
         delta = now - then;
 
-        if (playing && delta > interval) {
+        if (delta > interval) {
           then = now - (delta % interval);
           smooth = then / smoothFactor;
 
