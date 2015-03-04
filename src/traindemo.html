@@ -192,7 +192,7 @@
           // Clouds.
           c.globalAlpha = 0.3;
           c.beginPath();
-          c.arc(i * 12,  Math.cos(i + smooth) * 5 - 5, 30 + Math.sin((i % 3)) * 5, 0, Math.PI);
+          c.arc(i * 12,  Math.cos(i + smooth) * 5 - 5, 30 + Math.sin((i % 3)) * 5, 0, 9);
           c.fill();
           c.globalAlpha = 1;
         }
@@ -236,8 +236,8 @@
 
             //drawRect(colorEntity, x, y, w, h);
             c.beginPath();
-            //c.arc(x, y, w, Math.PI, Math.PI * 3);
-            c.arc(x, y, w, Math.PI / 10, Math.PI * 3);
+            //c.arc(x, y, w, 0, 9);
+            c.arc(x, y, w, 0, 9);
             c.fill();
 
             if (i == n - 1 && y > halfHeight - halfHeight / 10) {
@@ -294,7 +294,7 @@
         c.globalAlpha = 1;
         c.fillStyle = colorEntity;
         c.beginPath();
-        c.arc(halfWidth + trainPosition * (halfWidth / 2), height, trainWidth, Math.PI, Math.PI * 2);
+        c.arc(halfWidth + trainPosition * (halfWidth / 2), height, trainWidth, 0, 9);
         c.fill();
       }
 
