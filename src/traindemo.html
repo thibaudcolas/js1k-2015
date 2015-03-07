@@ -136,9 +136,7 @@
 
       var now;
       var then = 0;
-      var smoothFactor = 1000;
-      var smooth;
-      var interval = 1000 / 30;
+      var interval = 999 / 30;
       var delta = 0;
 
       var distance = 0;
@@ -192,7 +190,7 @@
           // Clouds.
           c.globalAlpha = 0.3;
           c.beginPath();
-          c.arc(i * 12,  Math.sin(i + smooth) * 5 - 5, 30 + Math.sin((i % 3)) * 5, 0, 9);
+          c.arc(i * 12,  Math.sin(i + then / 999) * 5 - 5, 30 + Math.sin((i % 3)) * 5, 0, 9);
           c.fill();
           c.globalAlpha = 1;
         }
@@ -324,7 +322,6 @@
 
         if (delta > interval) {
           then = now - (delta % interval);
-          smooth = then / smoothFactor;
 
           distance += speed * (delta / 36e5);
 
