@@ -123,14 +123,14 @@
       var height = a.height;
       var halfHeight = height / 2;
 
-      var trackInnerWidth = width / 10;
-      var railWidth = trackInnerWidth / 5;
+      var trackWidth = width / 10;
+      var railWidth = trackWidth / 5;
 
-      var trainWidth = width / 20;
+      var trainSize = width / 20;
       // -1 = left, 1 = right.
       var trainPosition = -1;
 
-      var peopleWidth = trainWidth / 2;
+      var peopleSize = trainSize / 2;
       // 0 = false, -1 = left, 1 = right.
       var peopleAtBottom = 0;
 
@@ -145,7 +145,7 @@
       var score = 0;
       // -1 = spare lives, 1 = kill.
       var scoreMethod = -1;
-      var firstEncounter = true;
+      var firstEncounter = 1;
 
       var colorBackground = '#eda'; // '#e5ddac'
       var colorFar = '#eec'; // '#efe9cd'
@@ -226,7 +226,7 @@
         for (i = n; i--;) {
           if ((9 * Math.sin((55 + position * i) / 19) / Math.sin(i / 19) + distance * 1e3 + position * 2) % 20 > 19) {
 
-            var w = peopleWidth * 2 * ((railWidth / 6 + i) / n);
+            var w = peopleSize * 2 * ((railWidth / 6 + i) / n);
             var h = w + halfHeight / n;
 
             var y = halfHeight * (1 + (i / n)) - h / 2;
@@ -248,14 +248,14 @@
         c.beginPath();
 
         position = -1;
-        c.moveTo(startX + position * trackInnerWidth + position * railWidth, height);
+        c.moveTo(startX + position * trackWidth + position * railWidth, height);
         c.lineTo(horizonX + position * (railWidth / 4), halfHeight + 1);
-        c.lineTo(startX + position * trackInnerWidth, height);
+        c.lineTo(startX + position * trackWidth, height);
 
         position = 1;
-        c.moveTo(startX + position * trackInnerWidth + position * railWidth, height);
+        c.moveTo(startX + position * trackWidth + position * railWidth, height);
         c.lineTo(horizonX + position * (railWidth / 4), halfHeight + 1);
-        c.lineTo(startX + position * trackInnerWidth, height);
+        c.lineTo(startX + position * trackWidth, height);
 
         c.fill();
 
@@ -270,7 +270,7 @@
         for (i = n; i--;) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1e3) % 4 > 3) {
 
-            var w = (trackInnerWidth + railWidth * 2) * 2 * ((railWidth / 6 + i) / n);
+            var w = (trackWidth + railWidth * 2) * 2 * ((railWidth / 6 + i) / n);
             var h = halfHeight / n;
 
             var y = halfHeight * (1 + (i / n)) - h / 2;
@@ -292,7 +292,7 @@
         c.globalAlpha = 1;
         c.fillStyle = colorEntity;
         c.beginPath();
-        c.arc(halfWidth + trainPosition * (halfWidth / 2), height, trainWidth, 0, 9);
+        c.arc(halfWidth + trainPosition * (halfWidth / 2), height, trainSize, 0, 9);
         c.fill();
       }
 
@@ -337,8 +337,7 @@
 
           // Success, score points.
           if (trainPosition == scoreMethod * peopleAtBottom) {
-            firstEncounter = false;
-            peopleAtBottom = 0;
+            firstEncounter = peopleAtBottom = 0;
             score += 10;
             speed += 1;
 
@@ -349,9 +348,8 @@
           }
           // Failure, game over.
           if (trainPosition == -scoreMethod * peopleAtBottom) {
-            if (firstEncounter) {
-              firstEncounter = false;
-              scoreMethod = -scoreMethod;
+            if (firstEncounter > 0) {
+              firstEncounter = scoreMethod = -scoreMethod;
             }
             else {
               gameOver();
