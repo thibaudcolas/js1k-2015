@@ -17,7 +17,7 @@
 
       var now;
       var then = 0;
-      var interval = 999 / 30;
+      var interval = 1e3 / 30;
       var delta = 0;
 
       var distance = 0;
@@ -28,11 +28,11 @@
       var scoreMethod = -1;
       var firstEncounter = true;
 
-      var colorBackground = '#e5ddac'; // 229 221 172
-      var colorFar = '#efe9cd';
+      var colorBackground = '#eda'; // '#e5ddac'
+      var colorFar = '#eec'; // '#efe9cd'
       var colorSky = '#fff';
-      var colorEntity = '#61001d'; // 97 0 29
-      var colorOther = '#8d494d';
+      var colorEntity = '#602'; // '#61001d'
+      var colorOther = '#944'; // '#8d494d'
 
       // for (e in c) c[e[0]+e[2]+(e[6]||'')] = c[e];
       // with(c) {}
@@ -46,7 +46,6 @@
 
       bg = c.createLinearGradient(0, 0, 0, height);
       bg.addColorStop(0, colorBackground);
-      bg.addColorStop(0.45, colorFar);
       bg.addColorStop(0.5, colorSky);
       bg.addColorStop(0.52, colorBackground);
       bg.addColorStop(1, colorFar);
@@ -71,7 +70,7 @@
           // Clouds.
           c.globalAlpha = 0.3;
           c.beginPath();
-          c.arc(i * 12,  Math.sin(i + then / 999) * 5 - 5, 30 + Math.sin((i % 3)) * 5, 0, 9);
+          c.arc(i * 12,  Math.sin(i + then / 1e3) * 5 - 5, 30 + Math.sin((i % 3)) * 5, 0, 9);
           c.fill();
           c.globalAlpha = 1;
         }
@@ -86,7 +85,7 @@
         //c.globalAlpha = 0.9;
         var n = 70;
         for (i = n; i--;) {
-          if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 18 > 9) {
+          if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1e3) % 18 > 9) {
             var y = halfHeight * (1 + i / n);
             drawRect(colorFar, 0, y, width, halfHeight / n);
           }
@@ -105,7 +104,7 @@
         // Draw persons on the railway.
         var n = 50;
         for (i = n; i--;) {
-          if ((9 * Math.sin((55 + position * i) / 19) / Math.sin(i / 19) + distance * 1000 + position * 2) % 20 > 19) {
+          if ((9 * Math.sin((55 + position * i) / 19) / Math.sin(i / 19) + distance * 1e3 + position * 2) % 20 > 19) {
 
             var w = peopleWidth * 2 * ((railWidth / 6 + i) / n);
             var h = w + halfHeight / n;
@@ -149,7 +148,7 @@
         // Moving planks: Depth effect.
         var n = 70;
         for (i = n; i--;) {
-          if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1000) % 4 > 3) {
+          if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1e3) % 4 > 3) {
 
             var w = (trackInnerWidth + railWidth * 2) * 2 * ((railWidth / 6 + i) / n);
             var h = halfHeight / n;
@@ -186,8 +185,7 @@
 
       function drawShock() {
         c.globalAlpha = 0.8;
-        c.fillStyle = colorEntity;
-        c.fillRect(0, 0, width, height);
+        drawRect(colorEntity, 0, 0, width, height);
       }
 
       function gameOver() {
