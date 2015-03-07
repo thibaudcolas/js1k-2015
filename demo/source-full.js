@@ -73,7 +73,7 @@
           // Clouds.
           c.globalAlpha = 0.3;
           c.beginPath();
-          c.arc(i * 12,  Math.cos(i + smooth) * 5 - 5, 30 + Math.sin((i % 3)) * 5, 0, 9);
+          c.arc(i * 12,  Math.sin(i + smooth) * 5 - 5, 30 + Math.sin((i % 3)) * 5, 0, 9);
           c.fill();
           c.globalAlpha = 1;
         }
