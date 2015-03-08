@@ -183,15 +183,16 @@
 
       function drawSky() {
         //for (i = width / 10; i--;) {
-        for (var i = 0; i < width / 10; i++) {
-          // Sky weather (particles).
+        var n = width / 20;
+        for (var i = 0; i < n; i++) {
           c.fillStyle = colorSky;
+          // Sky weather (particles).
           //drawRect(colorSky, Math.random() * width, Math.random() * halfHeight, 1, 1);
 
           // Clouds.
           c.globalAlpha = 0.3;
           c.beginPath();
-          c.arc(i * 12,  Math.sin(i + then / 1e3) * 5 - 5, 30 + Math.sin((i % 3)) * 5, 0, 9);
+          c.arc(i * 20,  Math.sin(i + then / 1e3) * 5, Math.sin(i % 3) * trackWidth, 0, 9);
           c.fill();
           c.globalAlpha = 1;
         }
