@@ -185,7 +185,8 @@
         //for (i = width / 10; i--;) {
         for (var i = 0; i < width / 10; i++) {
           // Sky weather (particles).
-          drawRect(colorSky, Math.random() * width, Math.random() * halfHeight, 1, 1);
+          c.fillStyle = colorSky;
+          //drawRect(colorSky, Math.random() * width, Math.random() * halfHeight, 1, 1);
 
           // Clouds.
           c.globalAlpha = 0.3;
@@ -347,6 +348,7 @@
             }
           }
           // Failure, game over.
+          // trainPosition == -scoreMethod * peopleAtBottom && ((firstEncounter && (firstEncounter = scoreMethod = -scoreMethod)) || gameOver());
           if (trainPosition == -scoreMethod * peopleAtBottom) {
             if (firstEncounter > 0) {
               firstEncounter = scoreMethod = -scoreMethod;
