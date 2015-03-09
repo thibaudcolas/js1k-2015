@@ -171,7 +171,7 @@
 
       // I'm going to draw a lot of rectangles.
       function drawRect(color, x, y, w, h) {
-        c.fillStyle = color;
+        drawRect(color);
         c.fillRect(x, y, w, h);
       }
 
@@ -184,7 +184,7 @@
         // Bitwise OR to round the value.
         n = (width / 20) | 0;
         for (i = n; i--;) {
-          c.fillStyle = colorSky;
+          drawRect(colorSky);
           // Sky weather (particles).
           //drawRect(colorSky, Math.random() * width, Math.random() * halfHeight, 1, 1);
 
@@ -219,7 +219,7 @@
         var a = halfHeight / (startX - horizonX);
         var b = height - startX * a;
 
-        c.fillStyle = colorOther;
+        drawRect(colorOther);
 
         // Draw persons on the railway.
         n = 50;
@@ -290,7 +290,7 @@
 
       function drawTrain() {
         c.globalAlpha = 1;
-        c.fillStyle = colorEntity;
+        drawRect(colorEntity);
         c.beginPath();
         c.arc(halfWidth + trainPosition * (halfWidth / 2), height, entitySize, 0, 9);
         c.fill();
@@ -299,7 +299,7 @@
       function drawScore(size, x, y) {
         c.globalAlpha = 1;
         c.font = size + 'vw mono';
-        c.fillStyle = colorSky;
+        drawRect(colorSky);
         c.fillText(score, x, y);
       }
 
