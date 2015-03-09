@@ -183,7 +183,7 @@
 
       function drawSky() {
         // Bitwise OR to round the value.
-        var n = (width / 20) | 0;
+        n = (width / 20) | 0;
         for (i = n; i--;) {
           c.fillStyle = colorSky;
           // Sky weather (particles).
@@ -205,7 +205,7 @@
 
         // Depth effect.
         //c.globalAlpha = 0.9;
-        var n = 70;
+        n = 70;
         for (i = n; i--;) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1e3) % 18 > 9) {
             drawRect(colorFar, 0, halfHeight * (1 + i / n), width, halfHeight / n);
@@ -223,7 +223,7 @@
         c.fillStyle = colorOther;
 
         // Draw persons on the railway.
-        var n = 50;
+        n = 50;
         for (i = n; i--;) {
           if ((9 * Math.sin((55 + position * i) / 19) / Math.sin(i / 19) + distance * 1e3 + position * 2) % 20 > 19) {
 
@@ -267,7 +267,7 @@
         // c.fill();
 
         // Moving planks: Depth effect.
-        var n = 70;
+        n = 70;
         for (i = n; i--;) {
           if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1e3) % 4 > 3) {
 
