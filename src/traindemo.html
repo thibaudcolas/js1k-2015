@@ -207,7 +207,7 @@
         //c.globalAlpha = 0.9;
         n = 70;
         for (i = n; i--;) {
-          if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1e3) % 18 > 9) {
+          if ((distance * 1e3 + 9 * Math.sin((90 - i) / 57) / Math.sin(i / 57)) % 18 > 9) {
             drawRect(colorFar, 0, halfHeight * (1 + i / n), width, halfHeight / n);
           }
         }
@@ -225,7 +225,7 @@
         // Draw persons on the railway.
         n = 50;
         for (i = n; i--;) {
-          if ((9 * Math.sin((55 + position * i) / 19) / Math.sin(i / 19) + distance * 1e3 + position * 2) % 20 > 19) {
+          if ((distance * 1e3 + 9 * Math.sin((55 + position * i) / 19) / Math.sin(i / 19) + position * 2) % 20 > 19) {
 
             var w = peopleSize * 2 * ((railWidth / 6 + i) / n);
             var h = w + halfHeight / n;
@@ -269,7 +269,7 @@
         // Moving planks: Depth effect.
         n = 70;
         for (i = n; i--;) {
-          if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1e3) % 4 > 3) {
+          if ((distance * 1e3 + 9 * Math.sin((90 - i) / 57) / Math.sin(i / 57)) % 4 > 3) {
 
             var w = (trackWidth + railWidth * 2) * 2 * ((railWidth / 6 + i) / n);
             var h = halfHeight / n;
