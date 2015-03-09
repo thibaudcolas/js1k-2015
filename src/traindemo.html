@@ -238,7 +238,7 @@
             c.arc(x, y, w, 0, 9);
             c.fill();
 
-            if (i == n - 1 && y > halfHeight - halfHeight / 10) {
+            if (i == n - 1 && y > halfHeight - halfHeight / 9) {
               peopleAtBottom = position;
             }
           }
@@ -312,7 +312,7 @@
         // Makes the game stop.
         interval = 1e9;
         drawShock();
-        drawScore(20, halfWidth * (8 / 10), halfHeight);
+        drawScore(20, halfWidth * (7 / 9), halfHeight);
       }
 
       setInterval(function() {
@@ -330,7 +330,7 @@
           drawSide(-1);
           drawSide(1);
           drawTrain();
-          drawScore(5, 10, 50);
+          drawScore(5, 9, 50);
 
           // Bottom screen cleaning code.
           // drawRect(colorOther, 0, height, width, a.height);
