@@ -123,10 +123,10 @@
       var height = a.height;
       var halfHeight = height / 2;
 
-      var trackWidth = width / 10;
+      var trackWidth = width / 9;
       var railWidth = trackWidth / 5;
 
-      var entitySize = width / 20;
+      var entitySize = halfWidth / 9;
       // -1 = left, 1 = right.
       var trainPosition = -1;
 
@@ -171,7 +171,7 @@
 
       // I'm going to draw a lot of rectangles.
       function drawRect(color, x, y, w, h) {
-        drawRect(color);
+        c.fillStyle = color;
         c.fillRect(x, y, w, h);
       }
 
@@ -182,7 +182,7 @@
 
       function drawSky() {
         // Bitwise OR to round the value.
-        n = (width / 20) | 0;
+        n = entitySize | 0;
         for (i = n; i--;) {
           drawRect(colorSky);
           // Sky weather (particles).

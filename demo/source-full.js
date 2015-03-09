@@ -4,14 +4,13 @@
       var height = a.height;
       var halfHeight = height / 2;
 
-      var trackWidth = width / 10;
+      var trackWidth = width / 9;
       var railWidth = trackWidth / 5;
 
-      var trainSize = width / 20;
+      var entitySize = halfWidth / 9;
       // -1 = left, 1 = right.
       var trainPosition = -1;
 
-      var peopleSize = trainSize / 2;
       // 0 = false, -1 = left, 1 = right.
       var peopleAtBottom = 0;
 
@@ -63,10 +62,10 @@
       }
 
       function drawSky() {
-        //for (i = width / 10; i--;) {
-        var n = width / 20;
-        for (var i = 0; i < n; i++) {
-          c.fillStyle = colorSky;
+        // Bitwise OR to round the value.
+        n = entitySize | 0;
+        for (i = n; i--;) {
+          drawRect(colorSky);
           // Sky weather (particles).
           //drawRect(colorSky, Math.random() * width, Math.random() * halfHeight, 1, 1);
 
@@ -86,11 +85,10 @@
 
         // Depth effect.
         //c.globalAlpha = 0.9;
-        var n = 70;
+        n = 70;
         for (i = n; i--;) {
-          if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1e3) % 18 > 9) {
-            var y = halfHeight * (1 + i / n);
-            drawRect(colorFar, 0, y, width, halfHeight / n);
+          if ((distance * 1e3 + 9 * Math.sin((90 - i) / 57) / Math.sin(i / 57)) % 18 > 9) {
+            drawRect(colorFar, 0, halfHeight * (1 + i / n), width, halfHeight / n);
           }
         }
       }
@@ -102,14 +100,14 @@
         var a = halfHeight / (startX - horizonX);
         var b = height - startX * a;
 
-        c.fillStyle = colorOther;
+        drawRect(colorOther);
 
         // Draw persons on the railway.
-        var n = 50;
+        n = 50;
         for (i = n; i--;) {
-          if ((9 * Math.sin((55 + position * i) / 19) / Math.sin(i / 19) + distance * 1e3 + position * 2) % 20 > 19) {
+          if ((distance * 1e3 + 9 * Math.sin((55 + position * i) / 19) / Math.sin(i / 19) + position * 2) % 20 > 19) {
 
-            var w = peopleSize * 2 * ((railWidth / 6 + i) / n);
+            var w = entitySize * ((railWidth / 6 + i) / n);
             var h = w + halfHeight / n;
 
             var y = halfHeight * (1 + (i / n)) - h / 2;
@@ -121,7 +119,7 @@
             c.arc(x, y, w, 0, 9);
             c.fill();
 
-            if (i == n - 1 && y > halfHeight - halfHeight / 10) {
+            if (i == n - 1 && y > halfHeight - halfHeight / 9) {
               peopleAtBottom = position;
             }
           }
@@ -149,9 +147,9 @@
         // c.fill();
 
         // Moving planks: Depth effect.
-        var n = 70;
+        n = 70;
         for (i = n; i--;) {
-          if ((9 * Math.sin((90 - i) / 57.3) / Math.sin(i / 57.3) + distance * 1e3) % 4 > 3) {
+          if ((distance * 1e3 + 9 * Math.sin((90 - i) / 57) / Math.sin(i / 57)) % 4 > 3) {
 
             var w = (trackWidth + railWidth * 2) * 2 * ((railWidth / 6 + i) / n);
             var h = halfHeight / n;
@@ -173,16 +171,16 @@
 
       function drawTrain() {
         c.globalAlpha = 1;
-        c.fillStyle = colorEntity;
+        drawRect(colorEntity);
         c.beginPath();
-        c.arc(halfWidth + trainPosition * (halfWidth / 2), height, trainSize, 0, 9);
+        c.arc(halfWidth + trainPosition * (halfWidth / 2), height, entitySize, 0, 9);
         c.fill();
       }
 
       function drawScore(size, x, y) {
         c.globalAlpha = 1;
         c.font = size + 'vw mono';
-        c.fillStyle = colorSky;
+        drawRect(colorSky);
         c.fillText(score, x, y);
       }
 
@@ -195,7 +193,7 @@
         // Makes the game stop.
         interval = 1e9;
         drawShock();
-        drawScore(20, halfWidth * (8 / 10), halfHeight);
+        drawScore(20, halfWidth * (7 / 9), halfHeight);
       }
 
       setInterval(function() {
@@ -213,7 +211,7 @@
           drawSide(-1);
           drawSide(1);
           drawTrain();
-          drawScore(5, 10, 50);
+          drawScore(5, 9, 50);
 
           // Bottom screen cleaning code.
           // drawRect(colorOther, 0, height, width, a.height);
@@ -222,7 +220,7 @@
           if (trainPosition == scoreMethod * peopleAtBottom) {
             firstEncounter = peopleAtBottom = 0;
             score += 10;
-            speed += 1;
+            speed++;
 
             // If kill, draw shock.
             if (scoreMethod > 0) {
