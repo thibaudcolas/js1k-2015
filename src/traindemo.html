@@ -126,11 +126,10 @@
       var trackWidth = width / 10;
       var railWidth = trackWidth / 5;
 
-      var trainSize = width / 20;
+      var entitySize = width / 20;
       // -1 = left, 1 = right.
       var trainPosition = -1;
 
-      var peopleSize = trainSize / 2;
       // 0 = false, -1 = left, 1 = right.
       var peopleAtBottom = 0;
 
@@ -227,7 +226,7 @@
         for (i = n; i--;) {
           if ((distance * 1e3 + 9 * Math.sin((55 + position * i) / 19) / Math.sin(i / 19) + position * 2) % 20 > 19) {
 
-            var w = peopleSize * 2 * ((railWidth / 6 + i) / n);
+            var w = entitySize * ((railWidth / 6 + i) / n);
             var h = w + halfHeight / n;
 
             var y = halfHeight * (1 + (i / n)) - h / 2;
@@ -293,7 +292,7 @@
         c.globalAlpha = 1;
         c.fillStyle = colorEntity;
         c.beginPath();
-        c.arc(halfWidth + trainPosition * (halfWidth / 2), height, trainSize, 0, 9);
+        c.arc(halfWidth + trainPosition * (halfWidth / 2), height, entitySize, 0, 9);
         c.fill();
       }
 
