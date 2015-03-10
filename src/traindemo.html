@@ -131,20 +131,27 @@
       var trainPosition = -1;
 
       // 0 = false, -1 = left, 1 = right.
-      var peopleAtBottom = 0;
+      // var peopleAtBottom = 0;
 
-      var then = 0;
+      // then
+      // var T = 0;
       // 1000 / 30
       var interval = 33;
-      var delta = 0;
+      // delta
+      // var D = 0;
 
-      var distance = 0;
+      // distance
+      // var d = 0;
       var speed = 20;
 
-      var score = 0;
-      // -1 = spare lives, 1 = kill.
-      var scoreMethod = -1;
-      var firstEncounter = 1;
+      // score
+      //var s = 0;
+      var peopleAtBottom = T = D = d = s = 0;
+
+      // -1 = spare lives, 1 = kill for scoreMethod.
+      // 1 = right, -1 = left for F.
+      // firstEncounter
+      var scoreMethod = F = 1;
 
       var colorBackground = '#eda'; // '#e5ddac'
       var colorFar = '#eec'; // '#efe9cd'
@@ -197,7 +204,7 @@
 
           // Clouds.
           c.globalAlpha = 0.3;
-          drawCircle(i * 20,  Math.sin(i + then / 1e3) * 5, Math.sin(i % 3) * trackWidth);
+          drawCircle(i * 20,  Math.sin(i + T / 1e3) * 5, Math.sin(i % 3) * trackWidth);
         }
       }
 
@@ -210,7 +217,7 @@
         //c.globalAlpha = 0.9;
         n = 70;
         for (i = n; i--;) {
-          if ((distance * 1e3 + 9 * Math.sin((90 - i) / 57) / Math.sin(i / 57)) % 18 > 9) {
+          if ((d * 1e3 + 9 * Math.sin((90 - i) / 57) / Math.sin(i / 57)) % 18 > 9) {
             drawRect(colorFar, 0, halfHeight * (1 + i / n), width, halfHeight / n);
           }
         }
@@ -228,7 +235,7 @@
         // Draw persons on the railway.
         n = 50;
         for (i = n; i--;) {
-          if ((distance * 1e3 + 9 * Math.sin((55 + position * i) / 19) / Math.sin(i / 19) + position * 2) % 20 > 19) {
+          if ((d * 1e3 + 9 * Math.sin((55 + position * i) / 19) / Math.sin(i / 19) + position * 2) % 20 > 19) {
 
             var w = entitySize * ((railWidth / 6 + i) / n);
             var h = w + halfHeight / n;
@@ -269,7 +276,7 @@
         // Moving planks: Depth effect.
         n = 70;
         for (i = n; i--;) {
-          if ((distance * 1e3 + 9 * Math.sin((90 - i) / 57) / Math.sin(i / 57)) % 4 > 3) {
+          if ((d * 1e3 + 9 * Math.sin((90 - i) / 57) / Math.sin(i / 57)) % 4 > 3) {
 
             var w = (trackWidth + railWidth * 2) * 2 * ((railWidth / 6 + i) / n);
             var h = halfHeight / n;
@@ -298,7 +305,7 @@
       function drawScore(size, x, y) {
         drawRect(colorSky);
         c.font = size + 'vw mono';
-        c.fillText(score, x, y);
+        c.fillText(s, x, y);
       }
 
       function gameOver() {
@@ -312,12 +319,12 @@
       }
 
       setInterval(function() {
-        delta = new Date - then;
+        D = new Date - T;
 
-        if (delta > interval) {
-          then = new Date - (delta % interval);
+        if (D > interval) {
+          T = new Date - (D % interval);
 
-          distance += speed * (delta / 36e5);
+          d += speed * (D / 36e5);
 
           drawBackground();
           drawSky();
@@ -332,8 +339,8 @@
 
           // Success, score points.
           if (trainPosition == scoreMethod * peopleAtBottom) {
-            firstEncounter = peopleAtBottom = 0;
-            score += 10;
+            F = peopleAtBottom = 0;
+            s += 10;
             speed++;
 
             // If kill, draw shock.
@@ -342,10 +349,10 @@
             }
           }
           // Failure, game over.
-          // trainPosition == -scoreMethod * peopleAtBottom && ((firstEncounter && (firstEncounter = scoreMethod = -scoreMethod)) || gameOver());
+          // trainPosition == -scoreMethod * peopleAtBottom && ((F && (F = scoreMethod = -scoreMethod)) || gameOver());
           if (trainPosition == -scoreMethod * peopleAtBottom) {
-            if (firstEncounter > 0) {
-              firstEncounter = scoreMethod = -scoreMethod;
+            if (F > 0) {
+              F = scoreMethod = -scoreMethod;
             }
             else {
               gameOver();
