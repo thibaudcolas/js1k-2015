@@ -174,7 +174,7 @@
       function drawRect(color, x, y, w, h) {
         c.fillStyle = color;
         c.fillRect(x, y, w, h);
-        c.globalAlpha = 1;
+        c.globalAlpha = x ? 1 : 0.8;
       }
 
       // Draws the level background.
@@ -291,6 +291,7 @@
 
       function drawTrain() {
         drawRect(colorEntity);
+        c.globalAlpha = 1;
         c.beginPath();
         c.arc(halfWidth + trainPosition * (halfWidth / 2), height, entitySize, 0, 9);
         c.fill();
@@ -304,7 +305,6 @@
 
       function gameOver() {
         // Draw shock.
-        c.globalAlpha = 0.8;
         drawRect(colorEntity, 0, 0, width, height);
         // Makes the game stop.
         interval = 1e9;
@@ -341,7 +341,6 @@
 
             // If kill, draw shock.
             if (scoreMethod > 0) {
-              c.globalAlpha = 0.8;
               drawRect(colorEntity, 0, 0, width, height);
             }
           }
