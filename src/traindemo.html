@@ -135,7 +135,8 @@
 
       var now;
       var then = 0;
-      var interval = 1e3 / 30;
+      // 1000 / 30
+      var interval = 33;
       var delta = 0;
 
       var distance = 0;
@@ -249,12 +250,12 @@
 
         position = -1;
         c.moveTo(startX + position * trackWidth + position * railWidth, height);
-        c.lineTo(horizonX + position * (railWidth / 4), halfHeight + 1);
+        c.lineTo(horizonX + position * (railWidth / 4), halfHeight);
         c.lineTo(startX + position * trackWidth, height);
 
         position = 1;
         c.moveTo(startX + position * trackWidth + position * railWidth, height);
-        c.lineTo(horizonX + position * (railWidth / 4), halfHeight + 1);
+        c.lineTo(horizonX + position * (railWidth / 4), halfHeight);
         c.lineTo(startX + position * trackWidth, height);
 
         c.fill();
@@ -312,6 +313,7 @@
         // Makes the game stop.
         interval = 1e9;
         drawShock();
+        // 7 / 9
         drawScore(20, halfWidth * 0.8, halfHeight);
       }
 
