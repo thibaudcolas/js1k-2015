@@ -171,10 +171,16 @@
       // bg.addColorStop(1, colorFar);
 
       // I'm going to draw a lot of rectangles.
-      function drawRect(color, x, y, w, h) {
-        c.fillStyle = color;
+      function drawRect(position, x, y, w, h) {
+        c.fillStyle = position;
         c.fillRect(x, y, w, h);
         c.globalAlpha = x ? 1 : 0.8;
+      }
+
+      function drawCircle(position, x, y, w, h) {
+        c.beginPath();
+        c.arc(position, x, y, 0, 9);
+        c.fill();
       }
 
       // Draws the level background.
@@ -192,9 +198,7 @@
 
           // Clouds.
           c.globalAlpha = 0.3;
-          c.beginPath();
-          c.arc(i * 20,  Math.sin(i + then / 1e3) * 5, Math.sin(i % 3) * trackWidth, 0, 9);
-          c.fill();
+          drawCircle(i * 20,  Math.sin(i + then / 1e3) * 5, Math.sin(i % 3) * trackWidth);
         }
       }
 
@@ -213,7 +217,7 @@
         }
       }
 
-      function drawSide(position) {
+      function drawSide(position, x, y, w, h) {
         var startX = halfWidth + position * halfWidth / 2;
         var horizonX = halfWidth + position * halfWidth / 9;
         // Calculate line equation.
@@ -234,10 +238,7 @@
             var x = (y - b) / a - w / 2;
 
             //drawRect(colorEntity, x, y, w, h);
-            c.beginPath();
-            //c.arc(x, y, w, 0, 9);
-            c.arc(x, y, w, 0, 9);
-            c.fill();
+            drawCircle(x, y, w);
 
             if (i == n - 1 && y > halfHeight * 0.9) {
               peopleAtBottom = position;
@@ -292,9 +293,7 @@
       function drawTrain() {
         drawRect(colorEntity);
         c.globalAlpha = 1;
-        c.beginPath();
-        c.arc(halfWidth + trainPosition * (halfWidth / 2), height, entitySize, 0, 9);
-        c.fill();
+        drawCircle(halfWidth + trainPosition * (halfWidth / 2), height, entitySize);
       }
 
       function drawScore(size, x, y) {
