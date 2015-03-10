@@ -133,7 +133,6 @@
       // 0 = false, -1 = left, 1 = right.
       var peopleAtBottom = 0;
 
-      var now;
       var then = 0;
       // 1000 / 30
       var interval = 33;
@@ -313,11 +312,10 @@
       }
 
       setInterval(function() {
-        now = +new Date;
-        delta = now - then;
+        delta = new Date - then;
 
         if (delta > interval) {
-          then = now - (delta % interval);
+          then = new Date - (delta % interval);
 
           distance += speed * (delta / 36e5);
 
