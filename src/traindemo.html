@@ -304,15 +304,13 @@
         c.fillText(score, x, y);
       }
 
-      function drawShock() {
+      function gameOver() {
+        // Draw shock.
         c.globalAlpha = 0.8;
         drawRect(colorEntity, 0, 0, width, height);
-      }
-
-      function gameOver() {
         // Makes the game stop.
         interval = 1e9;
-        drawShock();
+
         // 7 / 9
         drawScore(20, halfWidth * 0.8, halfHeight);
       }
@@ -345,7 +343,8 @@
 
             // If kill, draw shock.
             if (scoreMethod > 0) {
-              drawShock();
+              c.globalAlpha = 0.8;
+              drawRect(colorEntity, 0, 0, width, height);
             }
           }
           // Failure, game over.
