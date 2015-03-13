@@ -298,9 +298,8 @@
       }
 
       function drawTrain() {
-        drawRect(colorEntity);
-        c.globalAlpha = 1;
-        drawCircle(halfWidth + P * (halfWidth / 2), height, entitySize);
+        drawRect(colorEntity, 1);
+        drawCircle(halfWidth + P * (halfWidth / 2), height + entitySize , entitySize * 3);
       }
 
       function drawScore(size, x, y) {
