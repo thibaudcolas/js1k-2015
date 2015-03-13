@@ -1,7 +1,14 @@
-js1k-2015
+js1k-2015 — The Trolley Problem
 =========
 
 >My attempts and tools for JS1K 2015, Hype Train edition. — [Try it online!](https://rawgit.com/ThibWeb/js1k-2015/master/src/traindemo.html)
+
+~~~
+    Will you kill those people, or try to spare them?
+    The train is running, the choice is yours to make.
+    --
+    Press a key, click or touch to switch tracks. Your first action (kill or spare) will determine if you score points by killing, or by sparing people. Do you believe in heaven?
+~~~
 
 ## Theme
 
