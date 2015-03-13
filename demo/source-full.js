@@ -8,8 +8,9 @@
       var railWidth = trackWidth / 5;
 
       var entitySize = halfWidth / 9;
+      // trainPosition
       // -1 = left, 1 = right.
-      var trainPosition = -1;
+      // var P = 1;
 
       // 0 = false, -1 = left, 1 = right.
       // var peopleAtBottom = 0;
@@ -32,7 +33,7 @@
       // -1 = spare lives, 1 = kill for scoreMethod.
       // 1 = right, -1 = left for F.
       // firstEncounter
-      var scoreMethod = F = 1;
+      var scoreMethod = F = P = 1;
 
       var colorBackground = '#eda'; // '#e5ddac'
       var colorFar = '#eec'; // '#efe9cd'
@@ -47,7 +48,7 @@
       a.ontouchstart = onclick = onkeydown = function() {
         // Can be reset here, check is done when people approach.
         peopleAtBottom = 0;
-        trainPosition = -trainPosition;
+        P = -P;
       };
 
       B = c.createLinearGradient(0, 0, 0, height);
@@ -178,9 +179,8 @@
       }
 
       function drawTrain() {
-        drawRect(colorEntity);
-        c.globalAlpha = 1;
-        drawCircle(halfWidth + trainPosition * (halfWidth / 2), height, entitySize);
+        drawRect(colorEntity, 1);
+        drawCircle(halfWidth + P * (halfWidth / 2), height + entitySize , entitySize * 3);
       }
 
       function drawScore(size, x, y) {
@@ -219,7 +219,7 @@
           // drawRect(colorOther, 0, height, width, a.height);
 
           // Success, score points.
-          if (trainPosition == scoreMethod * peopleAtBottom) {
+          if (P == scoreMethod * peopleAtBottom) {
             F = peopleAtBottom = 0;
             s += 10;
             speed++;
@@ -230,8 +230,8 @@
             }
           }
           // Failure, game over.
-          // trainPosition == -scoreMethod * peopleAtBottom && ((F && (F = scoreMethod = -scoreMethod)) || gameOver());
-          if (trainPosition == -scoreMethod * peopleAtBottom) {
+          // P == -scoreMethod * peopleAtBottom && ((F && (F = scoreMethod = -scoreMethod)) || gameOver());
+          if (P == -scoreMethod * peopleAtBottom) {
             if (F > 0) {
               F = scoreMethod = -scoreMethod;
             }
