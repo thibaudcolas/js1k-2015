@@ -19,28 +19,31 @@ js1k-2015 — The Trolley Problem
 
 Contains both UglifyJS & Closure Compiler. Uglify is faster than Closure, but Closure's output is slightly smaller.
 
+First, install everything and set up a fast feedback loop:
+
 ~~~
 npm install
 bower install
-
 npm run start
-npm run build
-npm run build:closure
-npm run test
 ~~~
+
+Then, start counting bytes and ship it:
+
+~~~
+npm run build
+npm run test
+npm run base64
+~~
 
 ## TODO
 
 - Wind effect with white transparent lines coming across the screen (towards player?)
 - Trees (as awesome as http://js1k.com/2011-trail/demo/994)
 - Color palette like Furbee's with hsla http://www.romancortes.com/blog/furbee-my-js1k-spring-13-entry/ `‘hsla(’+[(j&15)*8-x,(j&15)*6+x+’%',(j<17)*60+(j&15)*7+’%',1]+’)’``
-- Train model
-- People model
 - Different game over screen depending on scoring method
 - Shock effect: screen / train shake
 - Rail changer model
 - More points for more morale choice
-- File size!
 
 ## Naming / marketing
 

@@ -26,9 +26,7 @@
   },
   "scripts": {
     "start": "gulp serve",
-    "build": "gulp build:uglify",
-    "build:closure": "gulp build:closure",
-    "filesize": "gulp build:closure && wc -c demo/source-crushed.js",
+    "build": "gulp build:closure && wc -c demo/source-crushed.js",
     "test": "wc -c demo/*.js",
     "base64": "openssl base64 -in demo/source-crushed.js -out demo/source-base64.js"
   }
