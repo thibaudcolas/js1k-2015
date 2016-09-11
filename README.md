@@ -1,9 +1,9 @@
 [The Trolley Problem](http://js1k.com/2015-hypetrain/demo/2323)
 =========
 
->My attempts and tools for JS1K 2015, Hype Train edition. — [Try it online!](https://rawgit.com/ThibWeb/js1k-2015/master/src/traindemo.html)
+>My attempts and tools for JS1K 2015, Hype Train edition. — [Try it online!](https://rawgit.com/thibaudcolas/js1k-2015/master/src/traindemo.html)
 
-[![Screenshot of the game](thetrolleyproblem-screenshot.png)](https://rawgit.com/ThibWeb/js1k-2015/master/src/traindemo.html)
+[![Screenshot of the game](thetrolleyproblem-screenshot.png)](https://rawgit.com/thibaudcolas/js1k-2015/master/src/traindemo.html)
 
 ~~~
     Will you kill those people, or try to spare them?
